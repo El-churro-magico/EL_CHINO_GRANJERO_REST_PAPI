@@ -5,7 +5,7 @@ using System.Web;
 using MySql.Data;
 using System.Collections;
 using System.Runtime.InteropServices;
-
+using System.Diagnostics;
 
 namespace REST.Models
 {
@@ -26,7 +26,7 @@ namespace REST.Models
             }
             catch (MySql.Data.MySqlClient.MySqlException ex)
             {
-
+                Debug.WriteLine(ex);
             }
         }
         public string saveAffiliationForm(AffilliationForm form)
@@ -112,7 +112,9 @@ namespace REST.Models
                     cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
                     cmd.ExecuteNonQuery();
 
-                    sqlString = "INSERT INTO tokens (Productor) VALUES (" + form.cedula.ToString() + ")";
+                    string token = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+
+                    sqlString = "INSERT INTO tokens (Productor,Token) VALUES (" + form.cedula.ToString()+",'"+token+"')";
                     cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
                     cmd.ExecuteNonQuery();
 
@@ -128,6 +130,51 @@ namespace REST.Models
 
             }
             return "404";
+        }
+        public string getToken(string credentials)
+        {
+            String[] elements = credentials.Split(':');
+            string id = elements[0];
+            string password = elements[1];
+
+            MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
+            String sqlString = "SELECT * FROM productores WHERE cedula=" + id.ToString();
+            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+            sqlReader = cmd.ExecuteReader();
+            if (sqlReader.Read())
+            {
+                if (sqlReader.GetString(13) == password)
+                {
+                    string token = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+
+                    sqlReader.Close();
+                    sqlString = "UPDATE tokens SET Token='" +token+ "' WHERE Productor="+id.ToString();
+                    cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+                    cmd.ExecuteNonQuery();
+
+                    return "200:" + token;
+                }
+                return "409:";
+            }
+            return "409:";
+        }
+        public bool logOut(int id)
+        {
+            MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
+            String sqlString = "SELECT * FROM productores WHERE cedula=" + id.ToString();
+            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+            sqlReader = cmd.ExecuteReader();
+            if (sqlReader.Read())
+            {
+                string token = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+
+                sqlReader.Close();
+                sqlString = "UPDATE tokens SET Token='" + token + "' WHERE Productor=" + id.ToString();
+                cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            return false;
         }
     }
 }
