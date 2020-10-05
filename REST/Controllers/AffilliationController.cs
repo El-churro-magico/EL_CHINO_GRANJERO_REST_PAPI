@@ -21,7 +21,7 @@ namespace REST.Controllers
         // GET: api/Affilliation/5
         public AffilliationForm Get(int id)
         {
-            AffilliationForm test = new AffilliationForm(id,"Daniel", "Camacho Gonzalez", "El Chino Depravado", "Heredia", "San Rafael", "Concepcion", "del Bar La Troja, 350 m noroeste", 60131812, DateTime.Parse("01/15/1999"), 60131812,"","PENDING");
+            AffilliationForm test = new AffilliationForm(id,"Daniel", "Camacho Gonzalez", "El Chino Depravado", "Heredia", "San Rafael", "Concepcion", "del Bar La Troja, 350 m noroeste", 60131812, DateTime.Parse("01/15/1999"), 60131812,"","PENDING","1234");
             return test;
         }
 

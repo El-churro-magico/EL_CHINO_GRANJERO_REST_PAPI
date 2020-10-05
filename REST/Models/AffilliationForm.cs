@@ -20,8 +20,9 @@ namespace REST.Models
         public int sinpeN{ get; set; }
         public string comment { get; set; }
         public string status { get; set; }
+        public string password { get; set; }
 
-        public AffilliationForm(int cedula, string name, string lastName, string businessName, string province, string canton, string district, string address, int phoneN, DateTime birthDate, int sinpeN, string comment, string status)
+        public AffilliationForm(int cedula, string name, string lastName, string businessName, string province, string canton, string district, string address, int phoneN, DateTime birthDate, int sinpeN, string comment, string status,string password)
         {
             this.cedula = cedula;
             this.name = name;
@@ -36,6 +37,7 @@ namespace REST.Models
             this.sinpeN = sinpeN;
             this.comment = comment;
             this.status = status;
+            this.password = password;
 
         }
     }
