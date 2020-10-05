@@ -15,6 +15,37 @@ namespace REST.Models
         private string userId = "root";
         private string password = "1234567890";
         private string dbName = "elchinogranjero";
+
+        public AffilliationForm getAffilliationForm(int id)
+        {
+            MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
+            string sqlString = "SELECT * FROM afiliaciones WHERE Cedula=" +id.ToString();
+            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+            sqlReader = cmd.ExecuteReader();
+            if (sqlReader.Read())
+            {
+                return new AffilliationForm(sqlReader.GetInt32(0), sqlReader.GetString(1), sqlReader.GetString(2), sqlReader.GetString(12), sqlReader.GetString(3), sqlReader.GetString(4), sqlReader.GetString(5), sqlReader.GetString(6), sqlReader.GetInt32(7), sqlReader.GetDateTime(8), sqlReader.GetInt32(9), sqlReader.GetString(10), sqlReader.GetString(11), sqlReader.GetString(13));;
+            }
+            return null;
+        }
+        public ArrayList getAllAffilliationForms()
+        {
+            ArrayList forms=new ArrayList();
+
+            MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
+
+            String sqlString = "SELECT * FROM afiliaciones";
+            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+
+            sqlReader = cmd.ExecuteReader();
+            while (sqlReader.Read())
+            {
+                AffilliationForm form = new AffilliationForm(sqlReader.GetInt32(0), sqlReader.GetString(1), sqlReader.GetString(2), sqlReader.GetString(12), sqlReader.GetString(3), sqlReader.GetString(4), sqlReader.GetString(5), sqlReader.GetString(6), sqlReader.GetInt32(7), sqlReader.GetDateTime(8), sqlReader.GetInt32(9), sqlReader.GetString(10), sqlReader.GetString(11), sqlReader.GetString(13));
+                forms.Add(form);
+            }
+            return forms;
+        }
+
         public DBConnection()
         {
             string credentials = "server=127.0.0.1;uid="+userId+";pwd="+password+";database="+dbName;
@@ -114,7 +145,7 @@ namespace REST.Models
 
                     string token = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
 
-                    sqlString = "INSERT INTO tokens (Productor,Token) VALUES (" + form.cedula.ToString()+",'"+token+"')";
+                    sqlString = "INSERT INTO tokens (Usuario,Token,Tipo) VALUES (" + form.cedula.ToString()+",'"+token+"','productores')";
                     cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
                     cmd.ExecuteNonQuery();
 
@@ -131,37 +162,33 @@ namespace REST.Models
             }
             return "404";
         }
-        public string getToken(string credentials)
+        public string getToken(SignInRequest credentials)
         {
-            String[] elements = credentials.Split(':');
-            string id = elements[0];
-            string password = elements[1];
-
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
-            String sqlString = "SELECT * FROM productores WHERE cedula=" + id.ToString();
+            String sqlString = "SELECT * FROM "+credentials.type+" WHERE cedula=" + credentials.ID.ToString();
             MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
             sqlReader = cmd.ExecuteReader();
             if (sqlReader.Read())
             {
-                if (sqlReader.GetString(13) == password)
+                if (sqlReader.GetString(13)==credentials.password)
                 {
                     string token = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
 
                     sqlReader.Close();
-                    sqlString = "UPDATE tokens SET Token='" +token+ "' WHERE Productor="+id.ToString();
+                    sqlString = "UPDATE tokens SET Token='" + token + "' WHERE Usuario=" + credentials.ID.ToString() + " AND Tipo='" + credentials.type + "'";
                     cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
                     cmd.ExecuteNonQuery();
 
-                    return "200:" + token;
+                    return token;
                 }
                 return "409:";
             }
             return "409:";
         }
-        public bool logOut(int id)
+        public bool logOut(SignOutRequest credentials)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
-            String sqlString = "SELECT * FROM productores WHERE cedula=" + id.ToString();
+            String sqlString = "SELECT * FROM "+credentials.type+" WHERE cedula=" + credentials.ID.ToString();
             MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
             sqlReader = cmd.ExecuteReader();
             if (sqlReader.Read())
@@ -169,7 +196,7 @@ namespace REST.Models
                 string token = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
 
                 sqlReader.Close();
-                sqlString = "UPDATE tokens SET Token='" + token + "' WHERE Productor=" + id.ToString();
+                sqlString = "UPDATE tokens SET Token='" + token + "' WHERE Usuario=" + credentials.ID.ToString()+" AND Tipo='"+credentials.type+"'";
                 cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
                 cmd.ExecuteNonQuery();
                 return true;

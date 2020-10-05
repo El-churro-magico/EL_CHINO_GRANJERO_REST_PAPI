@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -13,16 +14,15 @@ namespace REST.Controllers
         private DBConnection dbConnection = new DBConnection();
 
         // GET: api/Affilliation
-        public IEnumerable<string> Get()
+        public ArrayList Get()
         {
-            return new string[] { "value1", "value2" };
+            return dbConnection.getAllAffilliationForms();
         }
 
         // GET: api/Affilliation/5
         public AffilliationForm Get(int id)
         {
-            AffilliationForm test = new AffilliationForm(id,"Daniel", "Camacho Gonzalez", "El Chino Depravado", "Heredia", "San Rafael", "Concepcion", "del Bar La Troja, 350 m noroeste", 60131812, DateTime.Parse("01/15/1999"), 60131812,"","PENDING","1234");
-            return test;
+            return dbConnection.getAffilliationForm(id);
         }
 
         // POST: api/Affilliation

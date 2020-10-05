@@ -94,6 +94,8 @@
     <Compile Include="Models\AffilliationForm.cs" />
     <Compile Include="Models\DBConnection.cs" />
     <Compile Include="Models\Producer.cs" />
+    <Compile Include="Models\SignInRequest.cs" />
+    <Compile Include="Models\SignOutRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

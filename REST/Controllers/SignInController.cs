@@ -12,23 +12,21 @@ namespace REST.Controllers
     {
         private DBConnection dbConnection = new DBConnection();
         // GET: api/SignIn
-        public HttpResponseMessage Get([FromBody]string credentials)
+        public HttpResponseMessage Get([FromBody]SignInRequest credentials)
         {
             string response = dbConnection.getToken(credentials);
-            String[] elements = response.Split(':');
-            string code= elements[0];
-            if(code=="200")
+            if(response!="409")
             {
-                return Request.CreateResponse(HttpStatusCode.OK, elements[1]);
+                return Request.CreateResponse(HttpStatusCode.OK,response);
             }
             return Request.CreateResponse(HttpStatusCode.Conflict,"ID o contrasena incorrecto!");
         }
 
         // DELETE: api/SignIn/5
-        public HttpResponseMessage Delete(int id)
+        public HttpResponseMessage Delete([FromBody]SignOutRequest credentials)
         {
             HttpResponseMessage response;
-            if (dbConnection.logOut(id))
+            if (dbConnection.logOut(credentials))
             {
                 response = Request.CreateResponse(HttpStatusCode.OK,"Log Out realizado satisfactoriamente!");
                 return response;
