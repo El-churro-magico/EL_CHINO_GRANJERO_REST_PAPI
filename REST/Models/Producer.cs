@@ -19,8 +19,10 @@ namespace REST.Models
         public DateTime birthDate { get; set; }
         public int sinpeN { get; set; }
         public string password { get; set; }
+        public string deliveryPlaces { get; set; }
+        public float calification { get; set; }
 
-        public Producer(int cedula, string name, string lastName, string businessName,string province,string canton,string district,string address,int phoneN,DateTime birthDate,int sinpeN,string password)
+        public Producer(int cedula,string name,string lastName,string province,string canton,string district,string address,int phoneN,DateTime birthDate,int sinpeN,float calification,string deliveryPlaces,string businessName,string password )
         {
             this.cedula = cedula;
             this.name = name;
@@ -34,6 +36,8 @@ namespace REST.Models
             this.birthDate = birthDate;
             this.sinpeN = sinpeN;
             this.password = password;
+            this.deliveryPlaces = deliveryPlaces;
+            this.calification = calification;
         }
     }
 }

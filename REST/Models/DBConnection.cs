@@ -16,6 +16,23 @@ namespace REST.Models
         private string password = "1234567890";
         private string dbName = "elchinogranjero";
 
+
+        public DBConnection()
+        {
+            string credentials = "server=127.0.0.1;uid=" + userId + ";pwd=" + password + ";database=" + dbName;
+            try
+            {
+                this.connection = new MySql.Data.MySqlClient.MySqlConnection();
+                connection.ConnectionString = credentials;
+                connection.Open();
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                Debug.WriteLine(ex);
+            }
+        }
+
+
         public AffilliationForm getAffilliationForm(int id)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
@@ -46,20 +63,53 @@ namespace REST.Models
             return forms;
         }
 
-        public DBConnection()
+        public ArrayList getAllProducers()
         {
-            string credentials = "server=127.0.0.1;uid="+userId+";pwd="+password+";database="+dbName;
-            try
+            ArrayList producers = new ArrayList();
+
+            MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
+
+            String sqlString = "SELECT * FROM productores";
+            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+
+            sqlReader = cmd.ExecuteReader();
+            while (sqlReader.Read())
             {
-                this.connection = new MySql.Data.MySqlClient.MySqlConnection();
-                connection.ConnectionString = credentials;
-                connection.Open();
+                Producer form = new Producer(sqlReader.GetInt32(0), sqlReader.GetString(1), sqlReader.GetString(2), sqlReader.GetString(3), sqlReader.GetString(4), sqlReader.GetString(5), sqlReader.GetString(6), sqlReader.GetInt32(7),sqlReader.GetDateTime(8), sqlReader.GetInt32(9),sqlReader.GetInt32(10),sqlReader.GetString(11), sqlReader.GetString(12), sqlReader.GetString(13));
+                producers.Add(form);
             }
-            catch (MySql.Data.MySqlClient.MySqlException ex)
-            {
-                Debug.WriteLine(ex);
-            }
+            return producers;
         }
+        public Producer getProducer(int id)
+        {
+            MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
+            string sqlString = "SELECT * FROM productores WHERE Cedula=" + id.ToString();
+            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+            sqlReader = cmd.ExecuteReader();
+            if (sqlReader.Read())
+            {
+                return new Producer(sqlReader.GetInt32(0), sqlReader.GetString(1), sqlReader.GetString(2), sqlReader.GetString(3), sqlReader.GetString(4), sqlReader.GetString(5), sqlReader.GetString(6), sqlReader.GetInt32(7), sqlReader.GetDateTime(8), sqlReader.GetInt32(9), sqlReader.GetInt32(10), sqlReader.GetString(11), sqlReader.GetString(12), sqlReader.GetString(13));
+            }
+            return null;
+        }
+
+        public string updateProducer(int id,Producer producer)
+        {
+            MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
+            string sqlString = "SELECT * FROM productores WHERE Cedula=" + id.ToString();
+            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+            sqlReader = cmd.ExecuteReader();
+            if (sqlReader.Read())
+            {
+                sqlReader.Close();
+                sqlString = "UPDATE productores SET Cedula="+ producer.cedula.ToString() +",Nombre='"+ producer.name+"',Apellidos='" + producer.lastName + "',Provincia='" + producer.province + "',Canton='" + producer.canton + "',Distrito='" + producer.district + "',Direccion='" + producer.address + "',Telefono=" + producer.phoneN.ToString() + ",Fecha_Nacimiento='" + producer.birthDate.ToString("yyyy-MM-dd HH:mm:ss")+"',Num_Sinpe=" + producer.sinpeN.ToString() + ",Calificacion=" + producer.calification + ",Lugares_Entrega='"+producer.deliveryPlaces+"',nombreNegocio='" + producer.businessName + "',Password='"+producer.password+"' WHERE Cedula="+id.ToString();
+                cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+                cmd.ExecuteNonQuery();
+                return "200";
+            }
+            return "404";
+        }
+
         public string saveAffiliationForm(AffilliationForm form)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
@@ -181,9 +231,9 @@ namespace REST.Models
 
                     return token;
                 }
-                return "409:";
+                return "409";
             }
-            return "409:";
+            return "409";
         }
         public bool logOut(SignOutRequest credentials)
         {
