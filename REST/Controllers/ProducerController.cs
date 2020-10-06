@@ -37,8 +37,14 @@ namespace REST.Controllers
         }
 
         // DELETE: api/Producer/5
-        public void Delete(int id)
+        public HttpResponseMessage Delete(int id)
         {
+            string response = dbConnection.deleteProducer(id);
+            if(!response.Equals("404"))
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, "Productor eliminado correctamente!");
+            }
+            return Request.CreateResponse(HttpStatusCode.NotFound, "No se pudo encontrar el productos solicitado");
         }
     }
 }

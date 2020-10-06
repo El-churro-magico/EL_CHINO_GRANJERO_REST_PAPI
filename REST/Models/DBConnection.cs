@@ -109,7 +109,22 @@ namespace REST.Models
             }
             return "404";
         }
-
+        public string deleteProducer(int id)
+        {
+            MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
+            string sqlString = "SELECT * FROM productores WHERE Cedula='" + id.ToString() + "'";
+            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+            sqlReader = cmd.ExecuteReader();
+            if (sqlReader.Read())
+            {
+                sqlReader.Close();
+                sqlString = "DELETE FROM productores WHERE cedula=" + id.ToString();
+                cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+                cmd.ExecuteNonQuery();
+                return "200";
+            }
+            return "404";
+        }
         public string saveAffiliationForm(AffilliationForm form)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
