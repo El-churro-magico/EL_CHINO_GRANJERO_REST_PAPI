@@ -87,12 +87,14 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AffilliationController.cs" />
+    <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\ProducerController.cs" />
     <Compile Include="Controllers\SignInController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AffilliationForm.cs" />
+    <Compile Include="Models\Categorie.cs" />
     <Compile Include="Models\DBConnection.cs" />
     <Compile Include="Models\Producer.cs" />
     <Compile Include="Models\SignInRequest.cs" />

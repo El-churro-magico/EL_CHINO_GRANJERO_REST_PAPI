@@ -28,12 +28,16 @@ namespace REST.Controllers
         // PUT: api/Producer/5
         public HttpResponseMessage Put(int id,[FromBody]Producer value)
         {
-            string response = dbConnection.updateProducer(id,value);
-            if(response.Equals("200"))
+            int response = dbConnection.updateProducer(id,value);
+            if(response==200)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, "Productor actualizado correctamente");
             }
-            return Request.CreateResponse(HttpStatusCode.NotFound, "Productor no encontrado");
+            else if(response==404)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, "Productor no encontrado");
+            }
+            return Request.CreateResponse(HttpStatusCode.NotFound, "El numero de cedula o nombre de negocio que se quiere establecer ya fue registrado por otro productor!");
         }
 
         // DELETE: api/Producer/5
@@ -44,7 +48,7 @@ namespace REST.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.OK, "Productor eliminado correctamente!");
             }
-            return Request.CreateResponse(HttpStatusCode.NotFound, "No se pudo encontrar el productos solicitado");
+            return Request.CreateResponse(HttpStatusCode.NotFound, "No se pudo encontrar el productor solicitado");
         }
     }
 }

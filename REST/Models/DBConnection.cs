@@ -93,7 +93,7 @@ namespace REST.Models
             return null;
         }
 
-        public string updateProducer(int id,Producer producer)
+        public int updateProducer(int id,Producer producer)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
             string sqlString = "SELECT * FROM productores WHERE Cedula=" + id.ToString();
@@ -101,18 +101,68 @@ namespace REST.Models
             sqlReader = cmd.ExecuteReader();
             if (sqlReader.Read())
             {
-                sqlReader.Close();
-                sqlString = "UPDATE productores SET Cedula="+ producer.cedula.ToString() +",Nombre='"+ producer.name+"',Apellidos='" + producer.lastName + "',Provincia='" + producer.province + "',Canton='" + producer.canton + "',Distrito='" + producer.district + "',Direccion='" + producer.address + "',Telefono=" + producer.phoneN.ToString() + ",Fecha_Nacimiento='" + producer.birthDate.ToString("yyyy-MM-dd HH:mm:ss")+"',Num_Sinpe=" + producer.sinpeN.ToString() + ",Calificacion=" + producer.calification + ",Lugares_Entrega='"+producer.deliveryPlaces+"',nombreNegocio='" + producer.businessName + "',Password='"+producer.password+"' WHERE Cedula="+id.ToString();
-                cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
-                cmd.ExecuteNonQuery();
-                return "200";
+                int  actualCedula = id;
+                string actualBusinessName = sqlReader.GetString(12);
+                if (producer.cedula != id)
+                {
+                    sqlReader.Close();
+                    sqlString = "SELECT * FROM productores WHERE Cedula=" + producer.cedula.ToString();
+                    cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+                    sqlReader = cmd.ExecuteReader();
+                    if (sqlReader.Read())
+                    {
+                        return 409;
+                    }
+                    
+                    if (!actualBusinessName.Equals(producer.businessName))
+                    {
+                        sqlReader.Close();
+                        sqlString = "SELECT * FROM productores WHERE nombreNegocio=" + producer.businessName;
+                        cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+                        sqlReader = cmd.ExecuteReader();
+                        if (sqlReader.Read())
+                        {
+                            return 409;
+                        }
+
+                        sqlReader.Close();
+                        sqlString = "UPDATE productores SET Cedula=" + producer.cedula.ToString() + ",Nombre='" + producer.name + "',Apellidos='" + producer.lastName + "',Provincia='" + producer.province + "',Canton='" + producer.canton + "',Distrito='" + producer.district + "',Direccion='" + producer.address + "',Telefono=" + producer.phoneN.ToString() + ",Fecha_Nacimiento='" + producer.birthDate.ToString("yyyy-MM-dd HH:mm:ss") + "',Num_Sinpe=" + producer.sinpeN.ToString() + ",Calificacion=" + producer.calification + ",Lugares_Entrega='" + producer.deliveryPlaces + "',nombreNegocio='" + producer.businessName + "',Password='" + producer.password + "' WHERE Cedula=" + id.ToString();
+                        cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+                        cmd.ExecuteNonQuery();
+                        return 200;
+                    }
+                    sqlReader.Close();
+                    sqlString = "UPDATE productores SET Cedula=" + producer.cedula.ToString() + ",Nombre='" + producer.name + "',Apellidos='" + producer.lastName + "',Provincia='" + producer.province + "',Canton='" + producer.canton + "',Distrito='" + producer.district + "',Direccion='" + producer.address + "',Telefono=" + producer.phoneN.ToString() + ",Fecha_Nacimiento='" + producer.birthDate.ToString("yyyy-MM-dd HH:mm:ss") + "',Num_Sinpe=" + producer.sinpeN.ToString() + ",Calificacion=" + producer.calification + ",Lugares_Entrega='" + producer.deliveryPlaces + "',nombreNegocio='" + producer.businessName + "',Password='" + producer.password + "' WHERE Cedula=" + id.ToString();
+                    cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+                    cmd.ExecuteNonQuery();
+                    return 200;
+
+                }
+                if (actualBusinessName!= producer.businessName)
+                {
+                    sqlReader.Close();
+                    sqlString = "SELECT * FROM productores WHERE nombreNegocio=" + producer.businessName;
+                    cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+                    sqlReader = cmd.ExecuteReader();
+                    if (sqlReader.Read())
+                    {
+                        return 409;
+                    }
+
+                    sqlReader.Close();
+                    sqlString = "UPDATE productores SET Cedula=" + producer.cedula.ToString() + ",Nombre='" + producer.name + "',Apellidos='" + producer.lastName + "',Provincia='" + producer.province + "',Canton='" + producer.canton + "',Distrito='" + producer.district + "',Direccion='" + producer.address + "',Telefono=" + producer.phoneN.ToString() + ",Fecha_Nacimiento='" + producer.birthDate.ToString("yyyy-MM-dd HH:mm:ss") + "',Num_Sinpe=" + producer.sinpeN.ToString() + ",Calificacion=" + producer.calification + ",Lugares_Entrega='" + producer.deliveryPlaces + "',nombreNegocio='" + producer.businessName + "',Password='" + producer.password + "' WHERE Cedula=" + id.ToString();
+                    cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+                    cmd.ExecuteNonQuery();
+                    return 200;
+                }
+                return 200;
             }
-            return "404";
+            return 404;
         }
         public string deleteProducer(int id)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
-            string sqlString = "SELECT * FROM productores WHERE Cedula='" + id.ToString() + "'";
+            string sqlString = "SELECT * FROM productores WHERE Cedula=" + id.ToString();
             MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
             sqlReader = cmd.ExecuteReader();
             if (sqlReader.Read())
@@ -226,6 +276,146 @@ namespace REST.Models
 
             }
             return "404";
+        }
+        public ArrayList getAllCategories()
+        {
+            ArrayList categories = new ArrayList();
+
+            MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
+
+            String sqlString = "SELECT * FROM categorias";
+            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+
+            sqlReader = cmd.ExecuteReader();
+            while (sqlReader.Read())
+            {
+                Categorie categorie = new Categorie(sqlReader.GetInt32(0),sqlReader.GetString(1));
+                categories.Add(categorie);
+            }
+            return categories;
+        }
+        public Categorie getCategorie(int id)
+        {
+            MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
+            string sqlString = "SELECT * FROM categorias WHERE ID=" + id.ToString();
+            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+            sqlReader = cmd.ExecuteReader();
+            if (sqlReader.Read())
+            {
+                return new Categorie(sqlReader.GetInt32(0), sqlReader.GetString(1));
+            }
+            return null;
+        }
+
+        public int createCategorie(Categorie categorie)
+        {
+            MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
+            string sqlString = "SELECT * FROM categorias WHERE ID=" + categorie.ID;
+            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+            sqlReader = cmd.ExecuteReader();
+            if (sqlReader.Read())
+            {
+                return 409;
+            }
+            sqlReader.Close();
+            sqlString = "SELECT * FROM categorias WHERE Nombre='" + categorie.name+"'";
+            cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+            sqlReader = cmd.ExecuteReader();
+            if (sqlReader.Read())
+            {
+                return 409;
+            }
+
+            sqlReader.Close();
+            sqlString = "INSERT INTO categorias (ID,Nombre) VALUES (" + categorie.ID.ToString() + ",'" + categorie.name + "')";
+            cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+            cmd.ExecuteNonQuery();
+            return 200;
+        }
+
+        public int updateCategorie(int id, Categorie categorie)
+        {
+            MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
+            string sqlString = "SELECT * FROM categorias WHERE ID=" + id.ToString();
+            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+            sqlReader = cmd.ExecuteReader();
+            if (sqlReader.Read())
+            {
+                int actualID = sqlReader.GetInt32(0);
+                string actualName = sqlReader.GetString(1);
+
+                if (categorie.ID != id)
+                {
+                    sqlReader.Close();
+                    sqlString = "SELECT * FROM categorias WHERE ID=" + categorie.ID.ToString();
+                    cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+                    sqlReader = cmd.ExecuteReader();
+                    if (sqlReader.Read())
+                    {
+                        return 409;
+                    }
+                   
+
+                    if (!actualName.Equals(categorie.name))
+                    {
+                        sqlReader.Close();
+                        sqlString = "SELECT * FROM categorias WHERE Nombre=" + categorie.name;
+                        cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+                        sqlReader = cmd.ExecuteReader();
+                        if (sqlReader.Read())
+                        {
+                            return 409;
+                        }
+
+                        sqlReader.Close();
+                        sqlString = "UPDATE categorias SET ID=" + categorie.ID.ToString() + ",Nombre='" + categorie.name + "' WHERE ID=" + id.ToString();
+                        cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+                        cmd.ExecuteNonQuery();
+                        return 200;
+                    }
+                    sqlReader.Close();
+                    sqlString = "UPDATE categorias SET ID=" + categorie.ID.ToString() + " WHERE ID=" + id.ToString();
+                    cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+                    cmd.ExecuteNonQuery();
+                    return 200;
+
+                }
+                if(!actualName.Equals(categorie.name))
+                {
+                    sqlReader.Close();
+                    sqlString = "SELECT * FROM categorias WHERE Nombre='" + categorie.name+"'";
+                    cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+                    sqlReader = cmd.ExecuteReader();
+                    if (sqlReader.Read())
+                    {
+                        return 409;
+                    }
+
+                    sqlReader.Close();
+                    sqlString = "UPDATE categorias SET Nombre='" + categorie.name + "' WHERE ID=" + id.ToString();
+                    cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+                    cmd.ExecuteNonQuery();
+                    return 200;
+                }
+                return 200;
+            }
+            return 404;
+        }
+        public int deleteCategorie(int id)
+        {
+            MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
+            string sqlString = "SELECT * FROM categorias WHERE ID=" + id.ToString();
+            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+            sqlReader = cmd.ExecuteReader();
+            if (sqlReader.Read())
+            {
+                sqlReader.Close();
+                sqlString = "DELETE FROM categorias WHERE ID=" + id.ToString();
+                cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+                cmd.ExecuteNonQuery();
+                return 200;
+            }
+            return 404;
         }
         public string getToken(SignInRequest credentials)
         {
