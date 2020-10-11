@@ -21,15 +21,15 @@ namespace REST.Controllers
         }
 
         // GET: api/Categories/5
-        public Categorie Get(int id)
+        public Category Get(int id)
         {
-            return dbConnection.getCategorie(id);
+            return dbConnection.getCategory(id);
         }
 
         // POST: api/Categories
-        public HttpResponseMessage Post([FromBody]Categorie value)
+        public HttpResponseMessage Post([FromBody]Category value)
         {
-            int response = dbConnection.createCategorie(value);
+            int response = dbConnection.createCategory(value);
             if(response==409)
             {
                 return Request.CreateResponse(HttpStatusCode.Conflict, "El nombre o ID proporcionados ya existen!");
@@ -38,9 +38,9 @@ namespace REST.Controllers
         }
 
         // PUT: api/Categories/5
-        public HttpResponseMessage Put(int id, [FromBody]Categorie value)
+        public HttpResponseMessage Put(int id, [FromBody]Category value)
         {
-            int response = dbConnection.updateCategorie(id, value);
+            int response = dbConnection.updateCategory(id, value);
             if (response == 200)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, "Categoria actualizada correctamente");
@@ -55,7 +55,7 @@ namespace REST.Controllers
         // DELETE: api/Categories/5
         public HttpResponseMessage Delete(int id)
         {
-            int response = dbConnection.deleteCategorie(id);
+            int response = dbConnection.deleteCategory(id);
             if (response!=404)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, "Categoria eliminada correctamente!");
