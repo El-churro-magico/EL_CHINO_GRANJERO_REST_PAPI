@@ -14,6 +14,7 @@ namespace REST.Controllers
         private DBConnection dbConnection = new DBConnection();
 
         // GET: api/Affilliation
+
         public ArrayList Get()
         {
             return dbConnection.getAllAffilliationForms();

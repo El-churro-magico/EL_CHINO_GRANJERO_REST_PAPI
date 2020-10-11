@@ -175,6 +175,133 @@ namespace REST.Models
             }
             return "404";
         }
+
+        public string createProduct(Product product)
+        {
+            string sqlString = "INSERT INTO productos (ID,Nombre,Categoria,Productor,Foto,Precio,Modo_Venta,Disponibilidad,Ganancias) VALUES (" + product.id.ToString() + "," + product.name + "," + product.category + "," + product.producer.ToString() + "," + product.image + "," + product.cost.ToString() + "," + product.saleMode + "," + product.inStock.ToString() + "," + product.profits.ToString();
+            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+            cmd.ExecuteNonQuery();
+            return "OK";
+        }
+
+        public Product getProduct(int id)
+        {
+            MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
+            string sqlString = "SELECT * FROM productos WHERE ID=" + id.ToString();
+            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+            sqlReader = cmd.ExecuteReader();
+            if (sqlReader.Read())
+            {
+                return new Product(sqlReader.GetInt32(0), sqlReader.GetString(1), sqlReader.GetString(2), sqlReader.GetString(3), sqlReader.GetInt32(4), sqlReader.GetString(5), sqlReader.GetFloat(6), sqlReader.GetString(7), sqlReader.GetFloat(8), sqlReader.GetFloat(9));
+            }
+            return null;
+        }
+
+        public string updateProduct(int id, Product product)
+        {
+            MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
+            string sqlString = "SELECT * FROM productos WHERE ID=" + id.ToString();
+            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+            sqlReader = cmd.ExecuteReader();
+            if (sqlReader.Read())
+            {
+                sqlReader.Close();
+                sqlString = "UPDATE productos SET ID=" + product.id.ToString() + ",Nombre='" + product.name + ",Categoria=" + product.category + ",Productor=" + product.producer.ToString() + ",Foto=" + product.image + ",Precio=" + product.cost.ToString() + ",Modo_Venta=" + product.saleMode + ",Disponibilidad=" + product.inStock.ToString() + ",Ganancias=" + product.profits.ToString() + " WHERE Cedula=" + id.ToString();
+                cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+                cmd.ExecuteNonQuery();
+                return "200";
+            }
+            return "404";
+        }
+        public string deleteProduct(int id)
+        {
+            MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
+            string sqlString = "SELECT * FROM productos WHERE ID='" + id.ToString() + "'";
+            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+            sqlReader = cmd.ExecuteReader();
+            if (sqlReader.Read())
+            {
+                sqlReader.Close();
+                sqlString = "DELETE FROM productos WHERE ID=" + id.ToString();
+                cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+                cmd.ExecuteNonQuery();
+                return "200";
+            }
+            return "404";
+        }
+
+        public ArrayList getProducerAllProducts(int cedula)
+        {
+            ArrayList products = new ArrayList();
+
+            MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
+
+            String sqlString = "SELECT * FROM productos WHERE Productor=" + cedula.ToString();
+            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+
+            sqlReader = cmd.ExecuteReader();
+            while (sqlReader.Read())
+            {
+                Product list = new Product(sqlReader.GetInt32(0), sqlReader.GetString(1), sqlReader.GetString(2), sqlReader.GetString(3), sqlReader.GetInt32(4), sqlReader.GetString(5), sqlReader.GetFloat(6), sqlReader.GetString(7), sqlReader.GetFloat(8), sqlReader.GetFloat(9));
+                products.Add(list);
+            }
+            return products;
+        }
+
+        public ArrayList getProducerTop10SoldProducts(int cedula)
+        {
+            ArrayList products = new ArrayList();
+
+            MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
+
+            String sqlString = "SELECT* FROM productos WHERE Productor=" + cedula.ToString() + " ORDER BY Vendidos ASC LIMIT 10 ";
+            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+
+            sqlReader = cmd.ExecuteReader();
+            while (sqlReader.Read())
+            {
+                Product list = new Product(sqlReader.GetInt32(0), sqlReader.GetString(1), sqlReader.GetString(2), sqlReader.GetString(3), sqlReader.GetInt32(4), sqlReader.GetString(5), sqlReader.GetFloat(6), sqlReader.GetString(7), sqlReader.GetFloat(8), sqlReader.GetFloat(9));
+                products.Add(list);
+            }
+            return products;
+        }
+
+        public ArrayList getTop10SoldProducts()
+        {
+            ArrayList products = new ArrayList();
+
+            MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
+
+            String sqlString = "SELECT * FROM productos ORDER BY Vendidos ASC LIMIT 10";
+            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+
+            sqlReader = cmd.ExecuteReader();
+            while (sqlReader.Read())
+            {
+                Product list = new Product(sqlReader.GetInt32(0), sqlReader.GetString(1), sqlReader.GetString(2), sqlReader.GetString(3), sqlReader.GetInt32(4), sqlReader.GetString(5), sqlReader.GetFloat(6), sqlReader.GetString(7), sqlReader.GetFloat(8), sqlReader.GetFloat(9));
+                products.Add(list);
+            }
+            return products;
+        }
+        public ArrayList getTop10MostProfitableProducts()
+        {
+            ArrayList products = new ArrayList();
+
+            MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
+
+            String sqlString = "SELECT * FROM productos ORDER BY Ganancias ASC LIMIT 10";
+            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+
+            sqlReader = cmd.ExecuteReader();
+            while (sqlReader.Read())
+            {
+                Product list = new Product(sqlReader.GetInt32(0), sqlReader.GetString(1), sqlReader.GetString(2), sqlReader.GetString(3), sqlReader.GetInt32(4), sqlReader.GetString(5), sqlReader.GetFloat(6), sqlReader.GetString(7), sqlReader.GetFloat(8), sqlReader.GetFloat(9));
+                products.Add(list);
+            }
+            return products;
+        }
+
+
         public string saveAffiliationForm(AffilliationForm form)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
