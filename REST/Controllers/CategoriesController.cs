@@ -49,7 +49,7 @@ namespace REST.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "Categoria no encontrada");
             }
-            return Request.CreateResponse(HttpStatusCode.NotFound, "El numero de ID o nombre que se quiere establecer ya esta registrado en otra categoria!");
+            return Request.CreateResponse(HttpStatusCode.Conflict, "El numero de ID o nombre que se quiere establecer ya esta registrado en otra categoria!");
         }
 
         // DELETE: api/Categories/5

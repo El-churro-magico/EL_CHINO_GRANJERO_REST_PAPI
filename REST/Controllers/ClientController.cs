@@ -47,7 +47,7 @@ namespace REST.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "Cliente no encontrado");
             }
-            return Request.CreateResponse(HttpStatusCode.NotFound, "El numero de cedula que se quiere establecer ya has sido registrado por otro cliente!");
+            return Request.CreateResponse(HttpStatusCode.Conflict, "El numero de cedula que se quiere establecer ya ha sido registrado por otro cliente!");
         }
 
         // DELETE: api/Client/5
@@ -56,7 +56,7 @@ namespace REST.Controllers
             int response = dbConnection.deleteClient(id);
             if (response != 404)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, "Cliewnte eliminado correctamente!");
+                return Request.CreateResponse(HttpStatusCode.OK, "Cliente eliminado correctamente!");
             }
             return Request.CreateResponse(HttpStatusCode.NotFound, "No se pudo encontrar el cliente solicitado");
         }
