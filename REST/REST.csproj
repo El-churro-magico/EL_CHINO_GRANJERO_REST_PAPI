@@ -90,6 +90,7 @@
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\ProducerController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\SignInController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -99,6 +100,7 @@
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\DBConnection.cs" />
     <Compile Include="Models\Producer.cs" />
+    <Compile Include="Models\Product.cs" />
     <Compile Include="Models\SignInRequest.cs" />
     <Compile Include="Models\SignOutRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

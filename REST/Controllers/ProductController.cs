@@ -26,6 +26,7 @@ namespace REST.Controllers
                 {
                     return dbConnection.getTop10MostProfitableProducts();
                 }
+                return null;
             }
             else
             {
@@ -38,10 +39,17 @@ namespace REST.Controllers
                 {
                     return dbConnection.getProducerTop10SoldProducts(cedula);
                 }
+                return null;
             }
         }
 
-        // GET: api/Product/5
+        [Route("api/Product/getPene/{name}/{cm}")]
+        public string Get(string name, int cm)
+        {
+            return "El pene de " + name + " mide"+cm.ToString()+" cm";
+        }
+
+
         public Product Get(int id)
         {
             return dbConnection.getProduct(id);
