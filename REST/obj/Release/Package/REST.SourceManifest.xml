@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sitemanifest>
+  <IisApp path="C:\Users\kev_s\Source\Repos\EL_CHINO_GRANJERO_REST_PAPI\REST\obj\Release\Package\PackageTmp" />
+  <setAcl path="C:\Users\kev_s\Source\Repos\EL_CHINO_GRANJERO_REST_PAPI\REST\obj\Release\Package\PackageTmp" setAclResourceType="Directory" />
+  <setAcl path="C:\Users\kev_s\Source\Repos\EL_CHINO_GRANJERO_REST_PAPI\REST\obj\Release\Package\PackageTmp" setAclUser="anonymousAuthenticationUser" setAclResourceType="Directory" />
+</sitemanifest>

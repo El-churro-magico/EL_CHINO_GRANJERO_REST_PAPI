@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using REST.Models;
 
 namespace REST.Controllers
@@ -16,6 +17,11 @@ namespace REST.Controllers
         public ArrayList Get()
         {
             return dbConnection.getAllClients();
+        }
+
+        [Route("api/Client/test/{name}")]
+        public string Get(string name){
+            return "Ok PAPEh";
         }
 
         // GET: api/Client/5
