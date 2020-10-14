@@ -16,9 +16,9 @@ namespace REST.Models
         public string district { get; set; }
         public string address { get; set; }
         public int phoneN { get; set; }
-        public DateTime birthDate { get; set; }
+        private DateTime birthDate { get; set; }
         public string userName { get; set; }
-        public string password { get; set; }
+        private string password { get; set; }
 
         public Client(int cedula,string name, string lastName, string province,string canton,string district,string address,int phoneN,DateTime birthDate, string userName,string password)
         {
@@ -34,6 +34,14 @@ namespace REST.Models
             this.userName = userName;
             this.password = password;
 
+        }
+        public string getPassword()
+        {
+            return this.password;
+        }
+        public DateTime getBirthDate()
+        {
+            return this.birthDate;
         }
     }
 }

@@ -579,7 +579,7 @@ namespace REST.Models
         public int createClient(Client client)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
-            string sqlString = "SELECT * FROM clientes WHERE Cedula=" + client.cedula;
+            string sqlString = "SELECT * FROM clientes WHERE Cedula=" + client.cedula.ToString();
             MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
             sqlReader = cmd.ExecuteReader();
             if (sqlReader.Read())
@@ -596,12 +596,19 @@ namespace REST.Models
                 return 409;
             }
 
-            ArrayList cryptoComponents = sha256PasswordHasher(client.password);
+            ArrayList cryptoComponents = sha256PasswordHasher(client.getPassword());
 
             sqlReader.Close();
-            sqlString = "INSERT INTO clientes (Cedula,Nombre,Apellidos,Provincia,Canton,Distrito,Direccion,Telefono,Fecha_Nacimiento,Usuario,Password,Salt) VALUES (" + client.cedula.ToString() + ",'" + client.name +"','"+client.lastName+ "','"+client.province+ "','"+client.canton+ "','"+client.district+ "','"+client.address+ "',"+client.phoneN.ToString()+ ",'"+client.birthDate.ToString("yyyy-MM-dd HH:mm:ss")+"','"+client.userName+"','"+cryptoComponents[0]+"','"+cryptoComponents[1]+"')";
+            sqlString = "INSERT INTO clientes (Cedula,Nombre,Apellidos,Provincia,Canton,Distrito,Direccion,Telefono,Fecha_Nacimiento,Usuario,Password,Salt) VALUES (" + client.cedula.ToString() + ",'" + client.name +"','"+client.lastName+ "','"+client.province+ "','"+client.canton+ "','"+client.district+ "','"+client.address+ "',"+client.phoneN.ToString()+ ",'"+client.getBirthDate().ToString("yyyy-MM-dd HH:mm:ss")+"','"+client.userName+"','"+cryptoComponents[0]+"','"+cryptoComponents[1]+"')";
             cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
             cmd.ExecuteNonQuery();
+
+            sqlReader.Close();
+            sqlString = "INSERT INTO tokens (Usuario,Token,Tipo) VALUES (" + client.cedula.ToString() + ",'"+Convert.ToBase64String(Guid.NewGuid().ToByteArray())+"','clientes')";
+            cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+            cmd.ExecuteNonQuery();
+
+
             return 200;
         }
 
@@ -626,12 +633,36 @@ namespace REST.Models
                     }
                 }
                 sqlReader.Close();
-                sqlString = "UPDATE clientes SET Cedula=" + client.cedula.ToString() + ",Nombre='" + client.name + "',Apellidos='" + client.lastName + "',Provincia='" + client.province + "',Canton='" + client.canton + "',Distrito='" + client.district + "',Direccion='" + client.address + "',Telefono=" + client.phoneN.ToString() + ",Fecha_Nacimiento='" + client.birthDate.ToString("yyyy-MM-dd HH:mm:ss") + "',Usuario='" + client.userName + "',Password='" + client.password + "' WHERE Cedula=" + id.ToString();
+                sqlString = "UPDATE clientes SET Cedula=" + client.cedula.ToString() + ",Nombre='" + client.name + "',Apellidos='" + client.lastName + "',Provincia='" + client.province + "',Canton='" + client.canton + "',Distrito='" + client.district + "',Direccion='" + client.address + "',Telefono=" + client.phoneN.ToString() + ",Fecha_Nacimiento='" + client.getBirthDate().ToString("yyyy-MM-dd HH:mm:ss") + "',Usuario='" + client.userName + "',Password='" + client.getPassword() + "' WHERE Cedula=" + id.ToString();
                 cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
                 cmd.ExecuteNonQuery();
                 return 200;
             }
             return 404;
+        }
+
+
+        public Client getClientbyUserName(string token, string userName)
+        {
+            MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
+            string sqlString = "SELECT * FROM tokens WHERE Token='" + token+"'";
+            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+            sqlReader = cmd.ExecuteReader();
+            if (sqlReader.Read())
+            {
+                sqlString = "SELECT * FROM clientes WHERE Cedula=" +sqlReader.GetInt32(0).ToString();
+                cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+                sqlReader.Close();
+                sqlReader = cmd.ExecuteReader();
+                sqlReader.Read();
+                if(sqlReader.GetString(9).Equals(userName))
+                {
+                    return new Client(sqlReader.GetInt32(0), sqlReader.GetString(1),sqlReader.GetString(2),sqlReader.GetString(3),sqlReader.GetString(4),sqlReader.GetString(5),sqlReader.GetString(6),sqlReader.GetInt32(7),sqlReader.GetDateTime(8),sqlReader.GetString(9),null);
+                }
+
+            }
+            return null;
+
         }
         public int deleteClient(int id)
         {
@@ -674,6 +705,7 @@ namespace REST.Models
             }
             return "409";
         }*/
+
         public string getUserToken(string userName,string password)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
@@ -749,7 +781,6 @@ namespace REST.Models
 
             byte[] hash = sha256string.ComputeHash(bytes);
 
-            string test = (Convert.ToBase64String(hash));
 
             return hashedPassword.Equals(Convert.ToBase64String(hash));
         }

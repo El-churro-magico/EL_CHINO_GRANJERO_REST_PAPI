@@ -25,6 +25,12 @@ namespace REST.Controllers
             return dbConnection.getProducer(id);
         }
 
+        [Route ("api/Producer/{province}/{canton}/{district}")]
+        public ArrayList Get(string province,string canton, string district)
+        {
+            return new ArrayList();
+        }
+
         // PUT: api/Producer/5
         public HttpResponseMessage Put(int id,[FromBody]Producer value)
         {

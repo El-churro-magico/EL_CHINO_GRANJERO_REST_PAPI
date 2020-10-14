@@ -19,9 +19,10 @@ namespace REST.Controllers
             return dbConnection.getAllClients();
         }
 
-        [Route("api/Client/test/{name}")]
-        public string Get(string name){
-            return "Ok PAPEh";
+        [Route("api/Client/getUserByUserName/{userName}")]
+        public Client POST([FromBody]Token token,string userName)
+        {
+            return dbConnection.getClientbyUserName(token.token, userName);
         }
 
         // GET: api/Client/5
