@@ -42,14 +42,6 @@ namespace REST.Controllers
                 return null;
             }
         }
-
-        [Route("api/Product/getPene/{name}/{cm}")]
-        public string Get(string name, int cm)
-        {
-            return "El pene de " + name + " mide"+cm.ToString()+" cm";
-        }
-
-
         public Product Get(int id)
         {
             return dbConnection.getProduct(id);

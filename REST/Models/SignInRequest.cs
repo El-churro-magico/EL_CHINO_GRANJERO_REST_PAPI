@@ -5,11 +5,11 @@ using System.Web;
 
 namespace REST.Models
 {
-    public class SignInRequest:SignOutRequest
+    public class SignInRequest
     {
         public string password { get; set; }
 
-        public SignInRequest(string type,int id,string password):base(type,id)
+        public SignInRequest(string password)
         {
             this.password = password;
         }

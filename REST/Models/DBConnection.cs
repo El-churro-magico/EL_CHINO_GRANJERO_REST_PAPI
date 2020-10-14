@@ -6,6 +6,7 @@ using MySql.Data;
 using System.Collections;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
+using System.Security.Cryptography;
 
 namespace REST.Models
 {
@@ -587,7 +588,18 @@ namespace REST.Models
             }
 
             sqlReader.Close();
-            sqlString = "INSERT INTO clientes (Cedula,Nombre,Apellidos,Provincia,Canton,Distrito,Direccion,Telefono,Fecha_Nacimiento,Usuario,Password) VALUES (" + client.cedula.ToString() + ",'" + client.name +"','"+client.lastName+ "','"+client.province+ "','"+client.canton+ "','"+client.district+ "','"+client.address+ "',"+client.phoneN.ToString()+ ",'"+client.birthDate.ToString("yyyy-MM-dd HH:mm:ss")+"','"+client.userName+"','"+client.password+"')";
+            sqlString = "SELECT * FROM clientes WHERE Usuario='" + client.userName+"'";
+            cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+            sqlReader = cmd.ExecuteReader();
+            if (sqlReader.Read())
+            {
+                return 409;
+            }
+
+            ArrayList cryptoComponents = sha256PasswordHasher(client.password);
+
+            sqlReader.Close();
+            sqlString = "INSERT INTO clientes (Cedula,Nombre,Apellidos,Provincia,Canton,Distrito,Direccion,Telefono,Fecha_Nacimiento,Usuario,Password,Salt) VALUES (" + client.cedula.ToString() + ",'" + client.name +"','"+client.lastName+ "','"+client.province+ "','"+client.canton+ "','"+client.district+ "','"+client.address+ "',"+client.phoneN.ToString()+ ",'"+client.birthDate.ToString("yyyy-MM-dd HH:mm:ss")+"','"+client.userName+"','"+cryptoComponents[0]+"','"+cryptoComponents[1]+"')";
             cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
             cmd.ExecuteNonQuery();
             return 200;
@@ -639,7 +651,7 @@ namespace REST.Models
         }
 
 
-        public string getToken(SignInRequest credentials)
+        /*public string getToken(SignInRequest credentials)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
             String sqlString = "SELECT * FROM "+credentials.type+" WHERE cedula=" + credentials.ID.ToString();
@@ -661,7 +673,37 @@ namespace REST.Models
                 return "409";
             }
             return "409";
+        }*/
+        public string getUserToken(string userName,string password)
+        {
+            MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
+            String sqlString = "SELECT * FROM clientes WHERE Usuario='" +userName+"'";
+            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+            sqlReader = cmd.ExecuteReader();
+            if (sqlReader.Read())
+            {
+
+                byte[] bytes = System.Text.Encoding.Unicode.GetBytes(password);
+                byte[] inArray = HashAlgorithm.Create("SHA1").ComputeHash(bytes);
+                string encrypted = Convert.ToBase64String(inArray);
+
+
+                if (passwordVerifier(password, sqlReader.GetString(10), sqlReader.GetString(11)))
+                {
+                    string token = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+
+                    sqlString = "UPDATE tokens SET Token='" + token + "' WHERE Usuario=" + sqlReader.GetInt32(0).ToString() + " AND Tipo='clientes'";
+                    sqlReader.Close();
+                    cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+                    cmd.ExecuteNonQuery();
+
+                    return token;
+                }
+                return "409";
+            }
+            return "409";
         }
+
         public bool logOut(SignOutRequest credentials)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
@@ -679,6 +721,37 @@ namespace REST.Models
                 return true;
             }
             return false;
+        }
+        public ArrayList sha256PasswordHasher(string input)
+        {
+            ArrayList cryptoComponents = new ArrayList();
+            var rng = new System.Security.Cryptography.RNGCryptoServiceProvider();
+            var buff = new byte[10];
+            rng.GetBytes(buff);
+
+            string salt = Convert.ToBase64String(buff);
+
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(input + salt);
+            System.Security.Cryptography.SHA256Managed sha256string = new System.Security.Cryptography.SHA256Managed();
+
+            byte[] hash = sha256string.ComputeHash(bytes);
+
+            cryptoComponents.Add(Convert.ToBase64String(hash));
+            cryptoComponents.Add(salt);
+
+            return cryptoComponents;
+        }
+
+        public bool passwordVerifier(string password,string hashedPassword,string salt)
+        {
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(password + salt);
+            System.Security.Cryptography.SHA256Managed sha256string = new System.Security.Cryptography.SHA256Managed();
+
+            byte[] hash = sha256string.ComputeHash(bytes);
+
+            string test = (Convert.ToBase64String(hash));
+
+            return hashedPassword.Equals(Convert.ToBase64String(hash));
         }
     }
 }

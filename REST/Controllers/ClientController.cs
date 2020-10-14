@@ -36,7 +36,7 @@ namespace REST.Controllers
             int response = dbConnection.createClient(value);
             if (response == 409)
             {
-                return Request.CreateResponse(HttpStatusCode.Conflict, "La cedula proporcionada ya esta registrada!");
+                return Request.CreateResponse(HttpStatusCode.Conflict, "La cedula o el nombre de usuario proporcionados ya estan registrados!");
             }
             return Request.CreateResponse(HttpStatusCode.OK, "Cliente creado correctamente");
         }

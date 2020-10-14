@@ -11,15 +11,18 @@ namespace REST.Controllers
     public class SignInController : ApiController
     {
         private DBConnection dbConnection = new DBConnection();
-        // GET: api/SignIn
-        public HttpResponseMessage Get([FromBody]SignInRequest credentials)
+        
+
+
+        [Route("api/SignIn/client/{userName}")]
+        public HttpResponseMessage Post([FromBody]SignInRequest password,string userName)
         {
-            string response = dbConnection.getToken(credentials);
+            string response = dbConnection.getUserToken(userName,password.password);
             if(response!="409")
             {
                 return Request.CreateResponse(HttpStatusCode.OK,response);
             }
-            return Request.CreateResponse(HttpStatusCode.Conflict,"ID o contrasena incorrecto!");
+            return Request.CreateResponse(HttpStatusCode.Conflict,"Usuario o contrasena incorrecto!");
         }
 
         // DELETE: api/SignIn/5
