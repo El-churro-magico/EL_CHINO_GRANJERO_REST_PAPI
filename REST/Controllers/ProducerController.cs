@@ -25,10 +25,10 @@ namespace REST.Controllers
             return dbConnection.getProducer(id);
         }
 
-        [Route ("api/Producer/{province}/{canton}/{district}")]
+        [Route ("api/Producer/getProducerByLocation/{province}/{canton}/{district}")]
         public ArrayList Get(string province,string canton, string district)
         {
-            return new ArrayList();
+            return dbConnection.productAsigner(dbConnection.getProducersByLocation(province,canton,district));
         }
 
         // PUT: api/Producer/5

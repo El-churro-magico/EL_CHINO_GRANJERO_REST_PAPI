@@ -57,10 +57,10 @@ namespace REST.Controllers
             return Request.CreateResponse(HttpStatusCode.Conflict, "El numero de cedula que se quiere establecer ya ha sido registrado por otro cliente!");
         }
 
-        // DELETE: api/Client/5
-        public HttpResponseMessage Delete(int id)
+        // DELETE: api/Client
+        public HttpResponseMessage Delete([FromBody]Token token)
         {
-            int response = dbConnection.deleteClient(id);
+            int response = dbConnection.deleteClient(token.token);
             if (response != 404)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, "Cliente eliminado correctamente!");

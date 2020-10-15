@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Web;
 
@@ -18,9 +18,10 @@ namespace REST.Models
         public int phoneN { get; set; }
         public DateTime birthDate { get; set; }
         public int sinpeN { get; set; }
-        public string password { get; set; }
+        private string password { get; set; }
         public string deliveryPlaces { get; set; }
         public float calification { get; set; }
+        public ArrayList products { get; set; } 
 
         public Producer(int cedula,string name,string lastName,string province,string canton,string district,string address,int phoneN,DateTime birthDate,int sinpeN,float calification,string deliveryPlaces,string businessName,string password )
         {
@@ -38,6 +39,10 @@ namespace REST.Models
             this.password = password;
             this.deliveryPlaces = deliveryPlaces;
             this.calification = calification;
+        }
+        public string getPassword()
+        {
+            return this.password;
         }
     }
 }

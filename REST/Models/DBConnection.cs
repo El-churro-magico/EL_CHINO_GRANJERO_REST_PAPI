@@ -81,6 +81,28 @@ namespace REST.Models
             }
             return producers;
         }
+
+        public ArrayList getProducersByLocation(string province, string canton, string district)
+        {
+            ArrayList producers = new ArrayList();
+
+            MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
+
+            String sqlString = "SELECT * FROM productores WHERE Provincia='"+province+"' AND Canton='"+canton+"' AND Distrito='"+district+"'";
+            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
+
+            sqlReader = cmd.ExecuteReader();
+            while (sqlReader.Read())
+            {
+                Producer form = new Producer(sqlReader.GetInt32(0), sqlReader.GetString(1), sqlReader.GetString(2), sqlReader.GetString(3), sqlReader.GetString(4), sqlReader.GetString(5), sqlReader.GetString(6), sqlReader.GetInt32(7), sqlReader.GetDateTime(8), sqlReader.GetInt32(9), sqlReader.GetInt32(10), sqlReader.GetString(11), sqlReader.GetString(12), sqlReader.GetString(13));
+                producers.Add(form);
+            }
+
+            sqlReader.Close();
+            return producers;
+
+
+        }
         public Producer getProducer(int id)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
@@ -127,13 +149,13 @@ namespace REST.Models
                         }
 
                         sqlReader.Close();
-                        sqlString = "UPDATE productores SET Cedula=" + producer.cedula.ToString() + ",Nombre='" + producer.name + "',Apellidos='" + producer.lastName + "',Provincia='" + producer.province + "',Canton='" + producer.canton + "',Distrito='" + producer.district + "',Direccion='" + producer.address + "',Telefono=" + producer.phoneN.ToString() + ",Fecha_Nacimiento='" + producer.birthDate.ToString("yyyy-MM-dd HH:mm:ss") + "',Num_Sinpe=" + producer.sinpeN.ToString() + ",Calificacion=" + producer.calification + ",Lugares_Entrega='" + producer.deliveryPlaces + "',nombreNegocio='" + producer.businessName + "',Password='" + producer.password + "' WHERE Cedula=" + id.ToString();
+                        sqlString = "UPDATE productores SET Cedula=" + producer.cedula.ToString() + ",Nombre='" + producer.name + "',Apellidos='" + producer.lastName + "',Provincia='" + producer.province + "',Canton='" + producer.canton + "',Distrito='" + producer.district + "',Direccion='" + producer.address + "',Telefono=" + producer.phoneN.ToString() + ",Fecha_Nacimiento='" + producer.birthDate.ToString("yyyy-MM-dd HH:mm:ss") + "',Num_Sinpe=" + producer.sinpeN.ToString() + ",Calificacion=" + producer.calification + ",Lugares_Entrega='" + producer.deliveryPlaces + "',nombreNegocio='" + producer.businessName + "',Password='" + producer.getPassword() + "' WHERE Cedula=" + id.ToString();
                         cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
                         cmd.ExecuteNonQuery();
                         return 200;
                     }
                     sqlReader.Close();
-                    sqlString = "UPDATE productores SET Cedula=" + producer.cedula.ToString() + ",Nombre='" + producer.name + "',Apellidos='" + producer.lastName + "',Provincia='" + producer.province + "',Canton='" + producer.canton + "',Distrito='" + producer.district + "',Direccion='" + producer.address + "',Telefono=" + producer.phoneN.ToString() + ",Fecha_Nacimiento='" + producer.birthDate.ToString("yyyy-MM-dd HH:mm:ss") + "',Num_Sinpe=" + producer.sinpeN.ToString() + ",Calificacion=" + producer.calification + ",Lugares_Entrega='" + producer.deliveryPlaces + "',nombreNegocio='" + producer.businessName + "',Password='" + producer.password + "' WHERE Cedula=" + id.ToString();
+                    sqlString = "UPDATE productores SET Cedula=" + producer.cedula.ToString() + ",Nombre='" + producer.name + "',Apellidos='" + producer.lastName + "',Provincia='" + producer.province + "',Canton='" + producer.canton + "',Distrito='" + producer.district + "',Direccion='" + producer.address + "',Telefono=" + producer.phoneN.ToString() + ",Fecha_Nacimiento='" + producer.birthDate.ToString("yyyy-MM-dd HH:mm:ss") + "',Num_Sinpe=" + producer.sinpeN.ToString() + ",Calificacion=" + producer.calification + ",Lugares_Entrega='" + producer.deliveryPlaces + "',nombreNegocio='" + producer.businessName + "',Password='" + producer.getPassword() + "' WHERE Cedula=" + id.ToString();
                     cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
                     cmd.ExecuteNonQuery();
                     return 200;
@@ -151,7 +173,7 @@ namespace REST.Models
                     }
 
                     sqlReader.Close();
-                    sqlString = "UPDATE productores SET Cedula=" + producer.cedula.ToString() + ",Nombre='" + producer.name + "',Apellidos='" + producer.lastName + "',Provincia='" + producer.province + "',Canton='" + producer.canton + "',Distrito='" + producer.district + "',Direccion='" + producer.address + "',Telefono=" + producer.phoneN.ToString() + ",Fecha_Nacimiento='" + producer.birthDate.ToString("yyyy-MM-dd HH:mm:ss") + "',Num_Sinpe=" + producer.sinpeN.ToString() + ",Calificacion=" + producer.calification + ",Lugares_Entrega='" + producer.deliveryPlaces + "',nombreNegocio='" + producer.businessName + "',Password='" + producer.password + "' WHERE Cedula=" + id.ToString();
+                    sqlString = "UPDATE productores SET Cedula=" + producer.cedula.ToString() + ",Nombre='" + producer.name + "',Apellidos='" + producer.lastName + "',Provincia='" + producer.province + "',Canton='" + producer.canton + "',Distrito='" + producer.district + "',Direccion='" + producer.address + "',Telefono=" + producer.phoneN.ToString() + ",Fecha_Nacimiento='" + producer.birthDate.ToString("yyyy-MM-dd HH:mm:ss") + "',Num_Sinpe=" + producer.sinpeN.ToString() + ",Calificacion=" + producer.calification + ",Lugares_Entrega='" + producer.deliveryPlaces + "',nombreNegocio='" + producer.businessName + "',Password='" + producer.getPassword() + "' WHERE Cedula=" + id.ToString();
                     cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
                     cmd.ExecuteNonQuery();
                     return 200;
@@ -179,7 +201,7 @@ namespace REST.Models
 
         public string createProduct(Product product)
         {
-            string sqlString = "INSERT INTO productos (ID,Nombre,Categoria,Productor,Foto,Precio,Modo_Venta,Disponibilidad,Ganancias) VALUES (" + product.id.ToString() + "," + product.name + "," + product.category + "," + product.producer.ToString() + "," + product.image + "," + product.cost.ToString() + "," + product.saleMode + "," + product.inStock.ToString() + "," + product.profits.ToString();
+            string sqlString = "INSERT INTO productos (ID,Nombre,Categoria,Productor,Foto,Precio,Modo_Venta,Disponibilidad,Ganancias) VALUES (" + product.id.ToString() + ",'" + product.name + "','" + product.category + "'," + product.producer.ToString() + ",'" + product.image + "'," + product.cost.ToString() + ",'" + product.saleMode + "'," + product.inStock.ToString() + "," + product.profits.ToString()+")";
             MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
             cmd.ExecuteNonQuery();
             return "OK";
@@ -193,11 +215,11 @@ namespace REST.Models
             sqlReader = cmd.ExecuteReader();
             if (sqlReader.Read())
             {
-                return new Product(sqlReader.GetInt32(0), sqlReader.GetString(1), sqlReader.GetString(2), sqlReader.GetString(3), sqlReader.GetInt32(4), sqlReader.GetString(5), sqlReader.GetFloat(6), sqlReader.GetString(7), sqlReader.GetFloat(8), sqlReader.GetFloat(9));
+                return new Product(sqlReader.GetInt32(0), sqlReader.GetString(1), sqlReader.GetString(2), sqlReader.GetInt32(3), sqlReader.GetString(4), sqlReader.GetFloat(5), sqlReader.GetString(6), sqlReader.GetFloat(7), sqlReader.GetFloat(8));
             }
             return null;
         }
-
+        
         public string updateProduct(int id, Product product)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
@@ -243,9 +265,10 @@ namespace REST.Models
             sqlReader = cmd.ExecuteReader();
             while (sqlReader.Read())
             {
-                Product list = new Product(sqlReader.GetInt32(0), sqlReader.GetString(1), sqlReader.GetString(2), sqlReader.GetString(3), sqlReader.GetInt32(4), sqlReader.GetString(5), sqlReader.GetFloat(6), sqlReader.GetString(7), sqlReader.GetFloat(8), sqlReader.GetFloat(9));
+                Product list = new Product(sqlReader.GetInt32(0), sqlReader.GetString(1), sqlReader.GetString(2), sqlReader.GetInt32(3), sqlReader.GetString(4), sqlReader.GetFloat(5), sqlReader.GetString(6), sqlReader.GetFloat(7), sqlReader.GetFloat(8));
                 products.Add(list);
             }
+            sqlReader.Close();
             return products;
         }
 
@@ -261,7 +284,7 @@ namespace REST.Models
             sqlReader = cmd.ExecuteReader();
             while (sqlReader.Read())
             {
-                Product list = new Product(sqlReader.GetInt32(0), sqlReader.GetString(1), sqlReader.GetString(2), sqlReader.GetString(3), sqlReader.GetInt32(4), sqlReader.GetString(5), sqlReader.GetFloat(6), sqlReader.GetString(7), sqlReader.GetFloat(8), sqlReader.GetFloat(9));
+                Product list = new Product(sqlReader.GetInt32(0), sqlReader.GetString(1), sqlReader.GetString(2), sqlReader.GetInt32(3), sqlReader.GetString(4), sqlReader.GetFloat(5), sqlReader.GetString(6), sqlReader.GetFloat(7), sqlReader.GetFloat(8));
                 products.Add(list);
             }
             return products;
@@ -279,7 +302,7 @@ namespace REST.Models
             sqlReader = cmd.ExecuteReader();
             while (sqlReader.Read())
             {
-                Product list = new Product(sqlReader.GetInt32(0), sqlReader.GetString(1), sqlReader.GetString(2), sqlReader.GetString(3), sqlReader.GetInt32(4), sqlReader.GetString(5), sqlReader.GetFloat(6), sqlReader.GetString(7), sqlReader.GetFloat(8), sqlReader.GetFloat(9));
+                Product list = new Product(sqlReader.GetInt32(0), sqlReader.GetString(1), sqlReader.GetString(2), sqlReader.GetInt32(3), sqlReader.GetString(4), sqlReader.GetFloat(5), sqlReader.GetString(6), sqlReader.GetFloat(7), sqlReader.GetFloat(8));
                 products.Add(list);
             }
             return products;
@@ -296,7 +319,7 @@ namespace REST.Models
             sqlReader = cmd.ExecuteReader();
             while (sqlReader.Read())
             {
-                Product list = new Product(sqlReader.GetInt32(0), sqlReader.GetString(1), sqlReader.GetString(2), sqlReader.GetString(3), sqlReader.GetInt32(4), sqlReader.GetString(5), sqlReader.GetFloat(6), sqlReader.GetString(7), sqlReader.GetFloat(8), sqlReader.GetFloat(9));
+                Product list = new Product(sqlReader.GetInt32(0), sqlReader.GetString(1), sqlReader.GetString(2), sqlReader.GetInt32(3), sqlReader.GetString(4), sqlReader.GetFloat(5), sqlReader.GetString(6), sqlReader.GetFloat(7), sqlReader.GetFloat(8));
                 products.Add(list);
             }
             return products;
@@ -557,7 +580,7 @@ namespace REST.Models
             sqlReader = cmd.ExecuteReader();
             while (sqlReader.Read())
             {
-                Client category = new Client(sqlReader.GetInt32(0), sqlReader.GetString(1),sqlReader.GetString(2),sqlReader.GetString(3),sqlReader.GetString(4),sqlReader.GetString(5),sqlReader.GetString(6),sqlReader.GetInt32(7),sqlReader.GetDateTime(8),sqlReader.GetString(9),sqlReader.GetString(10));
+                Client category = new Client(sqlReader.GetInt32(0), sqlReader.GetString(1),sqlReader.GetString(2),sqlReader.GetString(3),sqlReader.GetString(4),sqlReader.GetString(5),sqlReader.GetString(6),sqlReader.GetInt32(7),sqlReader.GetString(8),sqlReader.GetString(9),sqlReader.GetString(10));
                 clients.Add(category);
             }
             return clients;
@@ -571,7 +594,7 @@ namespace REST.Models
             sqlReader = cmd.ExecuteReader();
             if (sqlReader.Read())
             {
-                return new Client(sqlReader.GetInt32(0), sqlReader.GetString(1), sqlReader.GetString(2), sqlReader.GetString(3), sqlReader.GetString(4), sqlReader.GetString(5), sqlReader.GetString(6), sqlReader.GetInt32(7), sqlReader.GetDateTime(8), sqlReader.GetString(9), sqlReader.GetString(10));
+                return new Client(sqlReader.GetInt32(0), sqlReader.GetString(1), sqlReader.GetString(2), sqlReader.GetString(3), sqlReader.GetString(4), sqlReader.GetString(5), sqlReader.GetString(6), sqlReader.GetInt32(7), sqlReader.GetString(8), sqlReader.GetString(9), sqlReader.GetString(10));
             }
             return null;
         }
@@ -599,7 +622,7 @@ namespace REST.Models
             ArrayList cryptoComponents = sha256PasswordHasher(client.getPassword());
 
             sqlReader.Close();
-            sqlString = "INSERT INTO clientes (Cedula,Nombre,Apellidos,Provincia,Canton,Distrito,Direccion,Telefono,Fecha_Nacimiento,Usuario,Password,Salt) VALUES (" + client.cedula.ToString() + ",'" + client.name +"','"+client.lastName+ "','"+client.province+ "','"+client.canton+ "','"+client.district+ "','"+client.address+ "',"+client.phoneN.ToString()+ ",'"+client.getBirthDate().ToString("yyyy-MM-dd HH:mm:ss")+"','"+client.userName+"','"+cryptoComponents[0]+"','"+cryptoComponents[1]+"')";
+            sqlString = "INSERT INTO clientes (Cedula,Nombre,Apellidos,Provincia,Canton,Distrito,Direccion,Telefono,Fecha_Nacimiento,Usuario,Password,Salt) VALUES (" + client.cedula.ToString() + ",'" + client.name +"','"+client.lastName+ "','"+client.province+ "','"+client.canton+ "','"+client.district+ "','"+client.address+ "',"+client.phoneN.ToString()+ ",'"+client.birthDate+"','"+client.userName+"','"+cryptoComponents[0]+"','"+cryptoComponents[1]+"')";
             cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
             cmd.ExecuteNonQuery();
 
@@ -633,7 +656,7 @@ namespace REST.Models
                     }
                 }
                 sqlReader.Close();
-                sqlString = "UPDATE clientes SET Cedula=" + client.cedula.ToString() + ",Nombre='" + client.name + "',Apellidos='" + client.lastName + "',Provincia='" + client.province + "',Canton='" + client.canton + "',Distrito='" + client.district + "',Direccion='" + client.address + "',Telefono=" + client.phoneN.ToString() + ",Fecha_Nacimiento='" + client.getBirthDate().ToString("yyyy-MM-dd HH:mm:ss") + "',Usuario='" + client.userName + "',Password='" + client.getPassword() + "' WHERE Cedula=" + id.ToString();
+                sqlString = "UPDATE clientes SET Cedula=" + client.cedula.ToString() + ",Nombre='" + client.name + "',Apellidos='" + client.lastName + "',Provincia='" + client.province + "',Canton='" + client.canton + "',Distrito='" + client.district + "',Direccion='" + client.address + "',Telefono=" + client.phoneN.ToString() + ",Fecha_Nacimiento='" + client.birthDate + "',Usuario='" + client.userName + "',Password='" + client.getPassword() + "' WHERE Cedula=" + id.ToString();
                 cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
                 cmd.ExecuteNonQuery();
                 return 200;
@@ -657,23 +680,23 @@ namespace REST.Models
                 sqlReader.Read();
                 if(sqlReader.GetString(9).Equals(userName))
                 {
-                    return new Client(sqlReader.GetInt32(0), sqlReader.GetString(1),sqlReader.GetString(2),sqlReader.GetString(3),sqlReader.GetString(4),sqlReader.GetString(5),sqlReader.GetString(6),sqlReader.GetInt32(7),sqlReader.GetDateTime(8),sqlReader.GetString(9),null);
+                    return new Client(sqlReader.GetInt32(0), sqlReader.GetString(1),sqlReader.GetString(2),sqlReader.GetString(3),sqlReader.GetString(4),sqlReader.GetString(5),sqlReader.GetString(6),sqlReader.GetInt32(7),sqlReader.GetString(8),sqlReader.GetString(9),null);
                 }
 
             }
             return null;
 
         }
-        public int deleteClient(int id)
+        public int deleteClient(string token)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
-            string sqlString = "SELECT * FROM clientes WHERE Cedula=" + id.ToString();
+            string sqlString = "SELECT * FROM tokens WHERE Token='" + token+"' AND Tipo='clientes'";
             MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
             sqlReader = cmd.ExecuteReader();
             if (sqlReader.Read())
             {
+                sqlString = "DELETE FROM clientes WHERE Cedula="+sqlReader.GetInt32(0).ToString();
                 sqlReader.Close();
-                sqlString = "DELETE FROM clientes WHERE Cedula=" + id.ToString();
                 cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, connection);
                 cmd.ExecuteNonQuery();
                 return 200;
@@ -783,6 +806,14 @@ namespace REST.Models
 
 
             return hashedPassword.Equals(Convert.ToBase64String(hash));
+        }
+        public ArrayList productAsigner(ArrayList producers)
+        {
+            foreach (Producer p in producers)
+            {
+                p.products = getProducerAllProducts(p.cedula);
+            }
+            return producers;
         }
     }
 }

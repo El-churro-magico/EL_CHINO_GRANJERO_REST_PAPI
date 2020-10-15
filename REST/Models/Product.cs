@@ -18,7 +18,7 @@ namespace REST.Models
         public float inStock { get; set; }
         public float profits { get; set; }
 
-        public Product(int id, string name, string lastName, string category, int producer, string image, float cost, string saleMode, float inStock, float profits)
+        public Product(int id, string name, string category, int producer, string image, float cost, string saleMode, float inStock, float profits)
         {
             this.id = id;
             this.name = name;

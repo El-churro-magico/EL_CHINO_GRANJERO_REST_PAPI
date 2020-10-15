@@ -16,11 +16,11 @@ namespace REST.Models
         public string district { get; set; }
         public string address { get; set; }
         public int phoneN { get; set; }
-        private DateTime birthDate { get; set; }
+        public string birthDate { get; set; }
         public string userName { get; set; }
         private string password { get; set; }
 
-        public Client(int cedula,string name, string lastName, string province,string canton,string district,string address,int phoneN,DateTime birthDate, string userName,string password)
+        public Client(int cedula,string name, string lastName, string province,string canton,string district,string address,int phoneN,string birthDate, string userName,string password)
         {
             this.cedula = cedula;
             this.name = name;
@@ -38,10 +38,6 @@ namespace REST.Models
         public string getPassword()
         {
             return this.password;
-        }
-        public DateTime getBirthDate()
-        {
-            return this.birthDate;
         }
     }
 }
