@@ -8,12 +8,12 @@ namespace REST.Models
     public class SignOutRequest
     {
         public string type { get; set; }
-        public int ID { get; set; }
+        public string token { get; set; }
 
-        public SignOutRequest(string type,int id)
+        public SignOutRequest(string type,string token)
         {
             this.type = type;
-            this.ID = id;
+            this.token = token;
         }
     }
 }

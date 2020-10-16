@@ -25,7 +25,7 @@ namespace REST.Controllers
             return Request.CreateResponse(HttpStatusCode.Conflict,"Usuario o contrasena incorrecto!");
         }
 
-        // DELETE: api/SignIn/5
+        // DELETE: api/SignIn
         public HttpResponseMessage Delete([FromBody]SignOutRequest credentials)
         {
             HttpResponseMessage response;

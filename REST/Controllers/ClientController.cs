@@ -13,6 +13,7 @@ namespace REST.Controllers
     public class ClientController : ApiController
     {
         private DBConnection dbConnection = new DBConnection();
+
         // GET: api/Client
         public ArrayList Get()
         {
