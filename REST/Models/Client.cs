@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace REST.Models
         public string birthDate { get; set; }
         public string userName { get; set; }
         private string password { get; set; }
+        public ArrayList notifications;
 
         public Client(int cedula,string name, string lastName, string province,string canton,string district,string address,int phoneN,string birthDate, string userName,string password)
         {
@@ -38,6 +40,11 @@ namespace REST.Models
         public string getPassword()
         {
             return this.password;
+        }
+
+        public void addNotifications(ArrayList notifications)
+        {
+            this.notifications = notifications;
         }
     }
 }

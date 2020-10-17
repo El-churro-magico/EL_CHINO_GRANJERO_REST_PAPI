@@ -7,23 +7,22 @@ namespace REST.Models
 {
     public class Order
     {
-        public int id { get; set; }
-        public int client { get; set; }
-        public int producer { get; set; }
-        public string products { get; set; }
-        public string voucher { get; set; }
+        public List<List<int>> productIds { get; set; }
+        public int clientID { get; set; }
+        public string invoice { get; set; }
+        public string token { get; set; }
         public string address { get; set; }
-        public string state { get; set; }
-        
-        public Order(int id, string name, string lastName, string category, int producer, string image, float cost, string saleMode, float inStock, float profits)
+
+        public Order(int clientid,string invoice,string token,List<List<int>>productIds,string address)
         {
-            this.id = id;
-            this.client = client;
-            this.producer = producer;
-            this.voucher = voucher;
-            this.producer = producer;
+            this.clientID = clientid;
+            this.invoice = invoice;
+            this.token = token;
+            this.productIds = productIds;
             this.address = address;
-            this.state = state;
         }
+
+
+
     }
 }

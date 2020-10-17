@@ -16,9 +16,9 @@ namespace REST.Models
         public float cost { get; set; }
         public string saleMode{ get; set; }
         public float inStock { get; set; }
-        public float profits { get; set; }
+        public int quantity{ get; set; }
 
-        public Product(int id, string name, string category, int producer, string image, float cost, string saleMode, float inStock, float profits)
+        public Product(int id, string name, string category, int producer, string image, float cost, string saleMode, float inStock,int quantity)
         {
             this.id = id;
             this.name = name;
@@ -28,7 +28,7 @@ namespace REST.Models
             this.cost = cost;
             this.saleMode = saleMode;
             this.inStock = inStock;
-            this.profits = profits;
+            this.quantity = quantity;
         }
 
     }

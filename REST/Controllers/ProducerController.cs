@@ -31,6 +31,18 @@ namespace REST.Controllers
             return dbConnection.productAsigner(dbConnection.getProducersByLocation(province,canton,district));
         }
 
+        [Route("api/Producer/Rate/{rating}/{producerID}/{notificationID}")]
+        public HttpResponseMessage Post(int rating,int producerID,int notificationID)
+        {
+            int response=dbConnection.postRating(rating,producerID,notificationID);
+
+            if (response == 409)
+            {
+                return Request.CreateResponse(HttpStatusCode.Conflict, "La calificacion no pudo ser creada");
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, "Califiacion creada correctamente!");
+        }
+
         // PUT: api/Producer/5
         public HttpResponseMessage Put(int id,[FromBody]Producer value)
         {
