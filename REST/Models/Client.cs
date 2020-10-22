@@ -21,8 +21,8 @@ namespace REST.Models
         public string userName { get; set; }
         private string password { get; set; }
         public ArrayList notifications;
-
-        public Client(int cedula,string name, string lastName, string province,string canton,string district,string address,int phoneN,string birthDate, string userName,string password)
+        public int compras { get; set; }
+        public Client(int cedula,string name, string lastName, string province,string canton,string district,string address,int phoneN,string birthDate, string userName,string password,int compras)
         {
             this.cedula = cedula;
             this.name = name;
@@ -35,6 +35,7 @@ namespace REST.Models
             this.birthDate = birthDate;
             this.userName = userName;
             this.password = password;
+            this.compras = compras;
 
         }
         public string getPassword()

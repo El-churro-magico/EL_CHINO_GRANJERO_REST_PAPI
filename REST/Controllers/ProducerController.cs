@@ -13,12 +13,32 @@ namespace REST.Controllers
     {
         private DBConnection dbConnection = new DBConnection();
 
-        // GET: api/Producer
+        [Route("api/Producer/getTops/{type}/{id}")]
+        public ArrayList Get(string type,int id)
+        {
+            if (type.Equals("SP"))
+            {
+                return dbConnection.getTop10SoldProducts();
+            }
+            else if(type.Equals("CG"))
+            {
+                return dbConnection.getTop10MostProfitableProducts();
+            }
+            else if(type.Equals("TB"))
+            {
+                return dbConnection.getTop10BestBuyers();
+            }
+            else if(type.Equals("TPP"))
+            {
+                return dbConnection.getProducerTop10SoldProducts(id);
+            }
+            return null;
+        }
+        [Route("api/Producer")]
         public ArrayList Get()
         {
             return dbConnection.getAllProducers();
         }
-
         // GET: api/Producer/5
         public Producer Get(int id)
         {
@@ -29,6 +49,12 @@ namespace REST.Controllers
         public ArrayList Get(string province,string canton, string district)
         {
             return dbConnection.productAsigner(dbConnection.getProducersByLocation(province,canton,district));
+        }
+
+        [Route("api/Producer/getUserByUserName/{userName}")]
+        public Producer POST([FromBody] Token token, string userName)
+        {
+            return dbConnection.getProducerbyId(token.token, userName);
         }
 
         [Route("api/Producer/Rate/{rating}/{producerID}/{notificationID}")]
@@ -42,8 +68,9 @@ namespace REST.Controllers
             }
             return Request.CreateResponse(HttpStatusCode.OK, "Califiacion creada correctamente!");
         }
-
+  
         // PUT: api/Producer/5
+        [Route("api/Producer/{id}")]
         public HttpResponseMessage Put(int id,[FromBody]Producer value)
         {
             int response = dbConnection.updateProducer(id,value);
@@ -59,6 +86,7 @@ namespace REST.Controllers
         }
 
         // DELETE: api/Producer/5
+        [Route("api/Producer/{id}")]
         public HttpResponseMessage Delete(int id)
         {
             string response = dbConnection.deleteProducer(id);

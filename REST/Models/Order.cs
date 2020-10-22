@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.UI.HtmlControls;
 
 namespace REST.Models
 {
     public class Order
     {
+        public int orderId { get; set;}
         public List<List<int>> productIds { get; set; }
         public int clientID { get; set; }
         public string invoice { get; set; }
@@ -21,7 +23,6 @@ namespace REST.Models
             this.productIds = productIds;
             this.address = address;
         }
-
 
 
     }

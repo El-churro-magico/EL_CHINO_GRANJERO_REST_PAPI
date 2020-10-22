@@ -1,6 +1,7 @@
 ﻿using REST.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -11,10 +12,12 @@ namespace REST.Controllers
     public class OrdersController : ApiController
     {
         private DBConnection dbConnection = new DBConnection();
-        // GET: api/Orders
-        public IEnumerable<string> Get()
+        
+
+        [Route("api/Orders/getProducerOrders/{producerId}/{token}")]
+        public List<producerOrderView> Get(int producerId,string token)
         {
-            return new string[] { "value1", "value2" };
+            return dbConnection.getProducerOrders(producerId, token);
         }
 
         // GET: api/Orders/5

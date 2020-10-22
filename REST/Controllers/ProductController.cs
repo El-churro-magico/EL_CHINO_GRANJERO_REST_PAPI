@@ -42,9 +42,10 @@ namespace REST.Controllers
                 return null;
             }
         }
-        public Product Get(int id)
+        [Route("api/Product/fetchproductsByProducer/{id}")]
+        public ArrayList Get(int id)
         {
-            return dbConnection.getProduct(id);
+            return dbConnection.getProducerAllProducts(id);
         }
 
         // POST: api/Product

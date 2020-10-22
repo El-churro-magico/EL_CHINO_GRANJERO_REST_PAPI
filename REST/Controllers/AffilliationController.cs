@@ -37,10 +37,11 @@ namespace REST.Controllers
             return Request.CreateResponse(HttpStatusCode.Created,"Solicitud de afiliacion creada correctamente!");
         }
 
-        // PUT: api/Affilliation/5
-        public HttpResponseMessage Put(int id, [FromBody]string value)
+        
+        [Route("api/Affilliation/updateAffiliation")]
+        public HttpResponseMessage Put([FromBody]AffilliationForm value)
         {
-            string result = dbConnection.updateAffiliationForm(id, value);
+            string result = dbConnection.updateAffiliationForm(value.cedula,value.status+":"+value.comment);
             if(result.Equals("200"))
             {
                 return Request.CreateResponse(HttpStatusCode.OK, "Operacion realizada con exito!");

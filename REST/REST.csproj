@@ -110,6 +110,7 @@
     <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Producer.cs" />
+    <Compile Include="Models\producerOrderView.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\SignInRequest.cs" />
     <Compile Include="Models\SignOutRequest.cs" />

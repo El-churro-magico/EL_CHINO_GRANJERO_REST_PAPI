@@ -10,7 +10,7 @@ namespace REST.Models
 
         public int id { get; set; }
         public string name { get; set; }
-        public string category { get; set; }
+        public int category { get; set; }
         public int producer { get; set; }
         public string image { get; set; }
         public float cost { get; set; }
@@ -18,9 +18,8 @@ namespace REST.Models
         public float inStock { get; set; }
         public int quantity{ get; set; }
 
-        public Product(int id, string name, string category, int producer, string image, float cost, string saleMode, float inStock,int quantity)
+        public Product(string name, int category, int producer, string image, float cost, string saleMode, float inStock,int quantity)
         {
-            this.id = id;
             this.name = name;
             this.category = category;
             this.producer = producer;
@@ -31,5 +30,9 @@ namespace REST.Models
             this.quantity = quantity;
         }
 
+        public void setId(int id)
+        {
+            this.id = id;
+        }
     }
 }
