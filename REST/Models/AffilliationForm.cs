@@ -19,12 +19,13 @@ namespace REST.Models
         public string district { get; set; }
         public string address { get; set; }
         public int phoneN { get; set; }
-        public DateTime birthDate { get; set; }
+        public string birthDate { get; set; }
         public int sinpeN{ get; set; }
         public string comment { get; set; }
         public string status { get; set; }
         public string password { get; set; }
 
+<<<<<<< HEAD
         /// <summary>
         /// Constructor de la clase
         /// </summary>
@@ -43,6 +44,9 @@ namespace REST.Models
         /// <param name="status">Estado.</param>
         /// <param name="password">Contraseña.</param>
         public AffilliationForm(int cedula, string name, string lastName, string businessName, string province, string canton, string district, string address, int phoneN, DateTime birthDate, int sinpeN, string comment, string status,string password)
+=======
+        public AffilliationForm(int cedula, string name, string lastName, string businessName, string province, string canton, string district, string address, int phoneN, string birthDate, int sinpeN, string comment, string status,string password)
+>>>>>>> camacho
         {
             this.cedula = cedula;
             this.name = name;

@@ -53,6 +53,7 @@ namespace REST.Controllers
             return Request.CreateResponse(HttpStatusCode.Created,"Solicitud de afiliacion creada correctamente!");
         }
 
+<<<<<<< HEAD
         // PUT: api/Affilliation/5
         /// <summary>
         /// Método para actualizar una solicitud de afiliación según un identificador dado.
@@ -61,8 +62,13 @@ namespace REST.Controllers
         /// <param name="value">Valores por actualizar.</param>
         /// <returns></returns>
         public HttpResponseMessage Put(int id, [FromBody]string value)
+=======
+        
+        [Route("api/Affilliation/updateAffiliation")]
+        public HttpResponseMessage Put([FromBody]AffilliationForm value)
+>>>>>>> camacho
         {
-            string result = dbConnection.updateAffiliationForm(id, value);
+            string result = dbConnection.updateAffiliationForm(value.cedula,value.status+":"+value.comment);
             if(result.Equals("200"))
             {
                 return Request.CreateResponse(HttpStatusCode.OK, "Operacion realizada con exito!");

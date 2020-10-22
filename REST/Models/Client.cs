@@ -24,6 +24,7 @@ namespace REST.Models
         public string userName { get; set; }
         private string password { get; set; }
         public ArrayList notifications;
+<<<<<<< HEAD
 
         /// <summary>
         /// Constructor de la clase.
@@ -40,6 +41,10 @@ namespace REST.Models
         /// <param name="userName">Nombre de usuario.</param>
         /// <param name="password">Contraseña.</param>
         public Client(int cedula,string name, string lastName, string province,string canton,string district,string address,int phoneN,string birthDate, string userName,string password)
+=======
+        public int compras { get; set; }
+        public Client(int cedula,string name, string lastName, string province,string canton,string district,string address,int phoneN,string birthDate, string userName,string password,int compras)
+>>>>>>> camacho
         {
             this.cedula = cedula;
             this.name = name;
@@ -52,6 +57,7 @@ namespace REST.Models
             this.birthDate = birthDate;
             this.userName = userName;
             this.password = password;
+            this.compras = compras;
 
         }
 

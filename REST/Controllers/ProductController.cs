@@ -51,6 +51,7 @@ namespace REST.Controllers
                 return null;
             }
         }
+<<<<<<< HEAD
         
         /// <summary>
         /// Método para obtener un productor según un identificador dado.
@@ -58,8 +59,12 @@ namespace REST.Controllers
         /// <param name="id">Identificador único dado.</param>
         /// <returns>Retorna un producto.</returns>
         public Product Get(int id)
+=======
+        [Route("api/Product/fetchproductsByProducer/{id}")]
+        public ArrayList Get(int id)
+>>>>>>> camacho
         {
-            return dbConnection.getProduct(id);
+            return dbConnection.getProducerAllProducts(id);
         }
 
         // POST: api/Product
