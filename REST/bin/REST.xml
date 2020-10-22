@@ -1,0 +1,709 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>REST</name>
+    </assembly>
+    <members>
+        <member name="T:REST.Controllers.AffilliationController">
+            <summary>
+            Clase controladora de Affilliation Form.
+            </summary>
+        </member>
+        <member name="M:REST.Controllers.AffilliationController.Get">
+            <summary>
+            Método para enviar todas las solicitudes de afiliación.
+            </summary>
+            <returns>Retorna una lista de solicitudes de afiliación.</returns>
+        </member>
+        <member name="M:REST.Controllers.AffilliationController.Get(System.Int32)">
+            <summary>
+            Método para obtener una solicitud de afiliación según un identificador dado.
+            </summary>
+            <param name="id">Identificador único dado.</param>
+            <returns>Retorna una solicitud de afiliación.</returns>
+        </member>
+        <member name="M:REST.Controllers.AffilliationController.Post(REST.Models.AffilliationForm)">
+            <summary>
+            Método para crear una solicitud de afiliación en la base de datos.
+            </summary>
+            <param name="value">Solicitud de afiliación por crear</param>
+            <returns>Retorna una respuesta http que permite verificar el estado de la operación</returns>
+        </member>
+        <member name="M:REST.Controllers.AffilliationController.Put(System.Int32,System.String)">
+            <summary>
+            Método para actualizar una solicitud de afiliación según un identificador dado.
+            </summary>
+            <param name="id">Identificador único dado.</param>
+            <param name="value">Valores por actualizar.</param>
+            <returns></returns>
+        </member>
+        <member name="T:REST.Controllers.CategoriesController">
+            <summary>
+            Clase controladora de Category
+            </summary>
+        </member>
+        <member name="M:REST.Controllers.CategoriesController.Get">
+            <summary>
+            Método para obtener todas las categorías existentes en la base de datos.
+            </summary>
+            <returns>Retorna una lista de categorías.</returns>
+        </member>
+        <member name="M:REST.Controllers.CategoriesController.Get(System.Int32)">
+            <summary>
+            Retorna una categoría según un identificador dado.
+            </summary>
+            <param name="id">Identificador único dado.</param>
+            <returns>Retorna una categoría.</returns>
+        </member>
+        <member name="M:REST.Controllers.CategoriesController.Post(REST.Models.Category)">
+            <summary>
+            Método para crear categoría en la base de datos.
+            </summary>
+            <param name="value">Categoría por crear.</param>
+            <returns>Retorna una respuesta en formato http que permite verificar el estado de la operación.</returns>
+        </member>
+        <member name="M:REST.Controllers.CategoriesController.Put(System.Int32,REST.Models.Category)">
+            <summary>
+            Método para actualizar una categoría, en la base de datos, según identificador dado.
+            </summary>
+            <param name="id">Identificador único dado.</param>
+            <param name="value">Valores por actualizar.</param>
+            <returns>Retorna una respuesta en formato http que permite verificar el estado de la operación.</returns>
+        </member>
+        <member name="M:REST.Controllers.CategoriesController.Delete(System.Int32)">
+            <summary>
+            Método para eliminar una categoría según un identificador dado.
+            </summary>
+            <param name="id">Identificador único dado.</param>
+            <returns>Retorna una respuesta en formato http que permite verificar el estado de la operación.</returns>
+        </member>
+        <member name="T:REST.Controllers.ClientController">
+            <summary>
+            Clase controladora de client.
+            </summary>
+        </member>
+        <member name="M:REST.Controllers.ClientController.Get">
+            <summary>
+            Método para obtener todos los clientes existentes en la base de datos.
+            </summary>
+            <returns>Retorna una lista de clientes.</returns>
+        </member>
+        <member name="M:REST.Controllers.ClientController.POST(REST.Models.Token,System.String)">
+            <summary>
+            Método para obtener un cliente según un nombre de usuario dado.
+            </summary>
+            <param name="token">Token del cliente.</param>
+            <param name="userName">Nombre de usuario del cliente.</param>
+            <returns>Retorna un cliente.</returns>
+        </member>
+        <member name="M:REST.Controllers.ClientController.Get(System.Int32)">
+            <summary>
+            Método para obtener un cliente según un identificador dado.
+            </summary>
+            <param name="id">Identificador único dado.</param>
+            <returns>Retorna un cliente.</returns>
+        </member>
+        <member name="M:REST.Controllers.ClientController.Post(REST.Models.Client)">
+            <summary>
+            Método para crear un cliente en la base de datos.
+            </summary>
+            <param name="value">Cliente por crear.</param>
+            <returns>Retorna una respuesta en formato http que permite verificar el estado de la operación.</returns>
+        </member>
+        <member name="M:REST.Controllers.ClientController.Put(System.Int32,REST.Models.Client)">
+            <summary>
+            Método para actualizar un cliente, en la base de datos, según un identificador dado.
+            </summary>
+            <param name="id">Identificador único dado.</param>
+            <param name="value">Cliente con datos actualizados.</param>
+            <returns>Retorna un respuesta en formato http que permite verificar el estado de la operación.</returns>
+        </member>
+        <member name="M:REST.Controllers.ClientController.Delete(REST.Models.Token)">
+            <summary>
+            Método para eliminar un ciente de la base de datos según un token dado.
+            </summary>
+            <param name="token">Token del cliente por eliminar.</param>
+            <returns>Retorna una respuesta en formato http que permite verificar el estado de la operación.</returns>
+        </member>
+        <member name="T:REST.Controllers.OrdersController">
+            <summary>
+            Clase controladora de Order
+            </summary>
+        </member>
+        <member name="M:REST.Controllers.OrdersController.Get">
+            <summary>
+            Método para obtener un pedido.
+            </summary>
+            <returns>Interfaz que contiene el pedido.</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:REST.Controllers.OrdersController.Get(System.Int32)" -->
+        <member name="M:REST.Controllers.OrdersController.Post(REST.Models.Order)">
+            <summary>
+            Método para crear un pedido en la base de datos.
+            </summary>
+            <param name="value">Pedido por crear.</param>
+            <returns>Retorna una respuesta en formato http que permite verificar el estado de la operación.</returns>
+        </member>
+        <member name="T:REST.Controllers.ProducerController">
+            <summary>
+            Clase controladora de Producer
+            </summary>
+        </member>
+        <member name="M:REST.Controllers.ProducerController.Get">
+            <summary>
+            Método para obtener todos los productores que se encuentran en la base de datos.
+            </summary>
+            <returns>Retorna una lista de productores.</returns>
+        </member>
+        <member name="M:REST.Controllers.ProducerController.Get(System.Int32)">
+            <summary>
+            Método para obtener un productor según un identificador dado.
+            </summary>
+            <param name="id">Identificador único dado.</param>
+            <returns>Retorna un productor,</returns>
+        </member>
+        <member name="M:REST.Controllers.ProducerController.Get(System.String,System.String,System.String)">
+            <summary>
+            Método para obtener todos los producotres de una ubicación dada.
+            </summary>
+            <param name="province">Provincia.</param>
+            <param name="canton">Cantón.</param>
+            <param name="district">Distrito.</param>
+            <returns>Retorna lista de productores.</returns>
+        </member>
+        <member name="M:REST.Controllers.ProducerController.Post(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Método para registrar una calificación.
+            </summary>
+            <param name="rating">Calificación.</param>
+            <param name="producerID">Identificador del productor.</param>
+            <param name="notificationID">Identificador de notificación.</param>
+            <returns>Retorna una respuesta en formato http que permite verificar el estado de la operación.</returns>
+        </member>
+        <member name="M:REST.Controllers.ProducerController.Put(System.Int32,REST.Models.Producer)">
+            <summary>
+            Método para actualizar un productor, en la base de datos, según identificador dado.
+            </summary>
+            <param name="id">Identificador único dado.</param>
+            <param name="value">Productor con datos actualizados.</param>
+            <returns>Retorna una respuesta en formato http que permite verificar el estado de la operación.</returns>
+        </member>
+        <member name="M:REST.Controllers.ProducerController.Delete(System.Int32)">
+            <summary>
+            Método para eliminar un productor según un identificador dado.
+            </summary>
+            <param name="id">Identificador único dado.</param>
+            <returns>Retorna una respuesta en formato http que permite verificar el estado de la operación.</returns>
+        </member>
+        <member name="T:REST.Controllers.ProductController">
+            <summary>
+            Clase que controla Product
+            </summary>
+        </member>
+        <member name="M:REST.Controllers.ProductController.Get(System.Int32,System.String)">
+            <summary>
+            Método para obtener todos los productos de un productor o un top dependiendo de la entrada.
+            </summary>
+            <param name="cedula">Cédula del productor.</param>
+            <param name="top">Top solicitado.</param>
+            <returns>Retorna una lista de productos.</returns>
+        </member>
+        <member name="M:REST.Controllers.ProductController.Get(System.Int32)">
+            <summary>
+            Método para obtener un productor según un identificador dado.
+            </summary>
+            <param name="id">Identificador único dado.</param>
+            <returns>Retorna un producto.</returns>
+        </member>
+        <member name="M:REST.Controllers.ProductController.Post(REST.Models.Product)">
+            <summary>
+            Método para crear un producto en la base de datos.
+            </summary>
+            <param name="value">Producto con datos actualizados.</param>
+            <returns>Retorna una respuesta en formato http que permite verificar el estado de la operación.</returns>
+        </member>
+        <member name="M:REST.Controllers.ProductController.Put(System.Int32,REST.Models.Product)">
+            <summary>
+            Método para actualizar producto, en la base de datos, según identificador dado.
+            </summary>
+            <param name="id">Identificador único dado.</param>
+            <param name="value">Producto con datos actualizados.</param>
+            <returns>Retorna una respuesta en formato http que permite verificar el estado de la operación.</returns>
+        </member>
+        <member name="M:REST.Controllers.ProductController.Delete(System.Int32)">
+            <summary>
+            Método para eliminar un producto de la base de  datos.
+            </summary>
+            <param name="id">Identificador único dado.</param>
+            <returns>Retorna una respuesta en formato http que permite verificar el estado de la operación.</returns>
+        </member>
+        <member name="T:REST.Controllers.SignInController">
+            <summary>
+            Clase controladora de SignInRequest.
+            </summary>
+        </member>
+        <member name="M:REST.Controllers.SignInController.Post(REST.Models.SignInRequest,System.String,System.String)">
+            <summary>
+            Método para crear o iniciar una sesión.
+            </summary>
+            <param name="password">Contraseña.</param>
+            <param name="type">Tipo de usuario.</param>
+            <param name="userName">Nombre de usuario.</param>
+            <returns>Retorna un respuesta en formato http que permite verificar el estado de la operación.</returns>
+        </member>
+        <member name="M:REST.Controllers.SignInController.Delete(REST.Models.SignOutRequest)">
+            <summary>
+            Método para cerrar o eliminar una sesión.
+            </summary>
+            <param name="credentials">Solicitud de cierre de sesión.</param>
+            <returns>Retorna un respuesta en formato http que permite verificar el estado de la operación.</returns>
+        </member>
+        <member name="T:REST.Models.AffilliationForm">
+            <summary>
+            Clase para representar las solicitudes de afiliación de los productores.
+            </summary>
+        </member>
+        <member name="M:REST.Models.AffilliationForm.#ctor(System.Int32,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Int32,System.DateTime,System.Int32,System.String,System.String,System.String)">
+            <summary>
+            Constructor de la clase
+            </summary>
+            <param name="cedula">Cédula.</param>
+            <param name="name">Nombre.</param>
+            <param name="lastName">Apellidos.</param>
+            <param name="businessName">Nombre del negocio.</param>
+            <param name="province">Provincia.</param>
+            <param name="canton">Cantón.</param>
+            <param name="district">Distrito.</param>
+            <param name="address">Dirección.</param>
+            <param name="phoneN">Teléfono.</param>
+            <param name="birthDate">Fecha de nacimiento.</param>
+            <param name="sinpeN">Número de Sinpe Móvil.</param>
+            <param name="comment">Comentario.</param>
+            <param name="status">Estado.</param>
+            <param name="password">Contraseña.</param>
+        </member>
+        <member name="T:REST.Models.Category">
+            <summary>
+            Clase para representar una categoría de productos.
+            </summary>
+        </member>
+        <member name="M:REST.Models.Category.#ctor(System.Int32,System.String)">
+            <summary>
+            Constructor de la clase.
+            </summary>
+            <param name="id">Identificador único.</param>
+            <param name="name">Nombre.</param>
+        </member>
+        <member name="T:REST.Models.Client">
+            <summary>
+            Clase para representar a un cliente.
+            </summary>
+        </member>
+        <member name="M:REST.Models.Client.#ctor(System.Int32,System.String,System.String,System.String,System.String,System.String,System.String,System.Int32,System.String,System.String,System.String)">
+            <summary>
+            Constructor de la clase.
+            </summary>
+            <param name="cedula">Cédula.</param>
+            <param name="name">Nombre.</param>
+            <param name="lastName">Apellidos.</param>
+            <param name="province">Provincia.</param>
+            <param name="canton">Cantón.</param>
+            <param name="district">Distrito.</param>
+            <param name="address">Dirección.</param>
+            <param name="phoneN">Teléfono.</param>
+            <param name="birthDate">Fecha de nacimiento.</param>
+            <param name="userName">Nombre de usuario.</param>
+            <param name="password">Contraseña.</param>
+        </member>
+        <member name="M:REST.Models.Client.getPassword">
+            <summary>
+            Método para obtener la contraseña de un cliente.
+            </summary>
+            <returns>Retorna la contraseña de un cliente.</returns>
+        </member>
+        <member name="M:REST.Models.Client.addNotifications(System.Collections.ArrayList)">
+            <summary>
+            Método para añadir notificaciones asociadas a un cliente.
+            </summary>
+            <param name="notifications">Lista de notificaciones.</param>
+        </member>
+        <member name="T:REST.Models.DBConnection">
+            <summary>
+            Clase utilizada para conectarse a la base de datos y crear una interfaz para su uso.
+            </summary>
+        </member>
+        <member name="M:REST.Models.DBConnection.#ctor">
+            <summary>
+            Constructor de la clase donde se establecen las credenciales para la conexión para la base de datos.
+            </summary>
+        </member>
+        <member name="M:REST.Models.DBConnection.getAffilliationForm(System.Int32)">
+            <summary>
+            Método utilizado para obtener de la base de datos una solicitud de afiliación de un productor determinado segun cédula.
+            </summary>
+            <param name="id">Identificador utilizado para obtener una solicitud específica.</param>
+            <returns>Retorna una solicitud de afiliación de un productor o null si no existe una solicitud asociada al identificador.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.getAllAffilliationForms">
+            <summary>
+            Método utilizado para obtener de la base de datos todas las solicitudes de afiliación, de productores, existentes.
+            </summary>
+            <returns>Retorna un ArrayList que contiene todas las solicitudes de afiliación, de productores, existentes.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.getAllProducers">
+            <summary>
+            Método utilizado para obtener todos los productores que se encuentran registrados en la base de datos.
+            </summary>
+            <returns>Retorna un ArrayList que contiene todos los productores que se encuentran registrados en la base de datos</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.getProducer(System.Int32)">
+            <summary>
+            Método utilizado para obtener un productor determinado asociado a un identificador específico, registrado en la base de datos.
+            </summary>
+            <param name="id">Identificador único asociado a un productor.</param>
+            <returns>Retorna un productor o null si no existe un productor asociado al identificador.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.updateProducer(System.Int32,REST.Models.Producer)">
+            <summary>
+            Método utilizado para actualizar, en la base de datos, los datos de un productor específico asociado a un indentificador dado.
+            </summary>
+            <param name="id">Identificador único asociado a un productor.</param>
+            <param name="producer">Productor al cual se le requiere actualizar los datos.</param>
+            <returns>Retorna un código númerico que permite identificar el estado de la operación.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.deleteProducer(System.Int32)">
+            <summary>
+            Método para eliminar el productor asociado a un identificador dado, de la base de datos.
+            </summary>
+            <param name="id">Identificador único</param>
+            <returns>String que permite reconocer el estado de la operación o null en caso de que no exista el productor</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.createProduct(REST.Models.Product)">
+            <summary>
+            Método para crear producto en la base de datos.
+            </summary>
+            <param name="product">Producto el cual se requiere crear en la base de datos.</param>
+            <returns>Retorna un string que permite identificar el estado de la operación.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.getProduct(System.Int32)">
+            <summary>
+            Método para obtener el producto, asociado a un identificador dado, de la base de datos.
+            </summary>
+            <param name="id">Identificador único.</param>
+            <returns>Retorna un producto.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.updateProduct(System.Int32,REST.Models.Product)">
+            <summary>
+            Método utilizado para actualizar, en la base de datos, los datos de un producto específico asociado a un identificador dado.
+            </summary>
+            <param name="id">Identificador único.</param>
+            <param name="product">Producto al cual se le requiere actualizar los datos.</param>
+            <returns>Retorna un string que permite verificar el estado de la operación.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.deleteProduct(System.Int32)">
+            <summary>
+            Método para eliminar un producto de la base de datos según identificador dado.
+            </summary>
+            <param name="id">Identificador único.</param>
+            <returns>Retorna un string para verificar el estado de la operación.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.getProducerAllProducts(System.Int32)">
+            <summary>
+            Método para obtener todos los productos de un productor dado según una cédula dada.
+            </summary>
+            <param name="cedula">Identificador único.</param>
+            <returns>Retorna un ArrayList de productos.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.getProducerTop10SoldProducts(System.Int32)">
+            <summary>
+            Método para obtener el top 10 de productos más vendidos de un producto dado según una cédula dada.
+            </summary>
+            <param name="cedula">Identificador único.</param>
+            <returns>Retorna un ArrayList con los 10 productos más vendidos de un productor dado.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.getTop10SoldProducts">
+            <summary>
+            Método para obtener el top 10 general de productos más vendidos.
+            </summary>
+            <returns>Retorna un ArrayList con los 10 productos más vendidos.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.getTop10MostProfitableProducts">
+            <summary>
+            Método para obtener el top 10 general de productos que más ganancias generan.
+            </summary>
+            <returns>Retorna un ArrayList con los 10 productos que más ganancias generan.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.saveAffiliationForm(REST.Models.AffilliationForm)">
+            <summary>
+            Método para almacenar una afiliación de productor en la base de datos.
+            </summary>
+            <param name="form">Afiliación por guardar</param>
+            <returns>Retorna un string para verificar el estado de la operación.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.updateAffiliationForm(System.Int32,System.String)">
+            <summary>
+            Método utilizado para actualizar, en la base de datos, los datos de una afiliación de producto específico asociado a un identificador dado.
+            </summary>
+            <param name="id">Identificador único.</param>
+            <param name="statusComment">Comentario almacenado.</param>
+            <returns>Retorna un string para verificar el estado de la operación.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.getAllCategories">
+            <summary>
+            Método para obtener todas las categorías existentes en la base de datos.
+            </summary>
+            <returns>Retorna un ArrayList que contiene todas las categorías.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.getCategory(System.Int32)">
+            <summary>
+            Método para obtener una categoría específica según un identificador dado.
+            </summary>
+            <param name="id">Identificador único.</param>
+            <returns>Retorna una categoría.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.createCategory(REST.Models.Category)">
+            <summary>
+            Método para crear categoría en la base de datos.
+            </summary>
+            <param name="category">Categoría la cual se creará en la base de datos.</param>
+            <returns>Retorna un código numérico para reconocer el estado de la operación.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.updateCategory(System.Int32,REST.Models.Category)">
+            <summary>
+            Método para actualizar, en la base de datos, los datos de una categoría específica asociada a un identificador dado.
+            </summary>
+            <param name="id">Identificador único.</param>
+            <param name="category">Categoría con los datos actualizados</param>
+            <returns></returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.deleteCategory(System.Int32)">
+            <summary>
+            Método para eliminar una categoría asociada a un identificador dado.
+            </summary>
+            <param name="id">Identificador único.</param>
+            <returns>Retorna código númerico para verificar el estado de la operación.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.getAllClients">
+            <summary>
+            Método para obtener todos los clientes almacenados en la base de datos.
+            </summary>
+            <returns>Retorna un ArrayList con todos los clientes.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.getClient(System.Int32)">
+            <summary>
+            Método para obtener un cliente específico según un identificador dado.
+            </summary>
+            <param name="id">Identificador único.</param>
+            <returns>Retorna un cliente asociado al identificador dado.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.createClient(REST.Models.Client)">
+            <summary>
+            Método para crear un cliente en la base de datos.
+            </summary>
+            <param name="client">Cliente por crear.</param>
+            <returns>Retorna un código númerico para verificar el estado de la operación.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.updateClient(System.Int32,REST.Models.Client)">
+            <summary>
+            Método para actualizar, en la base de datos, los datos de un cliente específico asociado a un identificador dado.
+            </summary>
+            <param name="id">Identificador único.</param>
+            <param name="client">Cliente con datos actualizados.</param>
+            <returns></returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.getClientbyUserName(System.String,System.String)">
+            <summary>
+            Método para obtener un cliente según un token y un nombre de usuario dado.
+            </summary>
+            <param name="token">Token único dado.</param>
+            <param name="userName">Nombre de usuario dado.</param>
+            <returns>Retorna cliente asociado al token y al nombre de usuario.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.deleteClient(System.String)">
+            <summary>
+            Método para eliminar un cliente según un token dado.
+            </summary>
+            <param name="token">Token único dado.</param>
+            <returns>Retorna un código númerico.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.createOrder(REST.Models.Order)">
+            <summary>
+            Método para crear un pedido en la base de datos.
+            </summary>
+            <param name="order">Pedido por ser creado en las base de datos.</param>
+            <returns>Retorna un código númerico para verificar el estado de la operación.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.getToken(System.String,System.String,System.String)">
+            <summary>
+            Método para obtener un token de un usuario.
+            </summary>
+            <param name="userName">Nombre de usuario.</param>
+            <param name="password">Contraseña.</param>
+            <param name="type">Tipo de usuario.</param>
+            <returns>Retorna el token del usuario dado.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.logOut(REST.Models.SignOutRequest)">
+            <summary>
+            Método para cerrar sesión.
+            </summary>
+            <param name="credentials">Credenciales de usuario.</param>
+            <returns>Retorna el estado de la petición.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.sha256PasswordHasher(System.String)">
+            <summary>
+            Método para encriptar contraseña. 
+            </summary>
+            <param name="input">Contraseña por encriptar.</param>
+            <returns>Retorna un ArrayList con la contraseña encriptada.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.passwordVerifier(System.String,System.String,System.String)">
+            <summary>
+            Método para verificar contraseña.
+            </summary>
+            <param name="password">Contraseña ingresada por el usuario.</param>
+            <param name="hashedPassword">Contraseña encriptada.</param>
+            <param name="salt">Salt para encriptación.</param>
+            <returns>Retorna un booleano dependiendo de si las contraseñas son iguales.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.productAsigner(System.Collections.ArrayList)">
+            <summary>
+            Método para asignar a una lista de productores sus respectivos productos.
+            </summary>
+            <param name="producers">Lista de productores.</param>
+            <returns>Retorna los productores con sus productos ya asignados.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.postRating(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Método para procesar la calificación de un productor.
+            </summary>
+            <param name="rating">Calificación.</param>
+            <param name="producerID">Identificador del productor.</param>
+            <param name="notificationID">Identificador de la notificación asociada</param>
+            <returns>Retorna un código numérico que permite verificar el estado de la operación.</returns>
+        </member>
+        <member name="M:REST.Models.DBConnection.orderNumberGenerator">
+            <summary>
+            Método que asigna un número identificador a un pedido.
+            </summary>
+        </member>
+        <member name="T:REST.Models.Notification">
+            <summary>
+            Clase para representar una notificación.
+            </summary>
+        </member>
+        <member name="M:REST.Models.Notification.#ctor(System.Int32,System.Int32,System.Int32,System.String)">
+            <summary>
+            Constructor de la clase.
+            </summary>
+            <param name="id">.Identificador único.</param>
+            <param name="producerid">Identificador de productor.</param>
+            <param name="clientid">Identificador de cliente.</param>
+            <param name="message">Mn¡ensaje contenido en la notificación.</param>
+        </member>
+        <member name="T:REST.Models.Order">
+            <summary>
+            Clase que represemta un pedido.
+            </summary>
+        </member>
+        <member name="M:REST.Models.Order.#ctor(System.Int32,System.String,System.String,System.Collections.Generic.List{System.Collections.Generic.List{System.Int32}},System.String)">
+            <summary>
+            Constructor de la clase.
+            </summary>
+            <param name="clientid">Identificador de cliente.</param>
+            <param name="invoice">Factura.</param>
+            <param name="token">Token.</param>
+            <param name="productIds">Lista de identificadores de productos.</param>
+            <param name="address">Dirección.</param>
+        </member>
+        <member name="T:REST.Models.Producer">
+            <summary>
+            Clase para representar un productor.
+            </summary>
+        </member>
+        <member name="M:REST.Models.Producer.#ctor(System.Int32,System.String,System.String,System.String,System.String,System.String,System.String,System.Int32,System.String,System.Int32,System.Single,System.String,System.String,System.String,System.String)">
+            <summary>
+            Constructor de la clase.
+            </summary>
+            <param name="cedula">Cédula.</param>
+            <param name="name">Nombre.</param>
+            <param name="lastName">Apellidos.</param>
+            <param name="province">´Provincia.</param>
+            <param name="canton">Cantón.</param>
+            <param name="district">Distrito.</param>
+            <param name="address">Dirección.</param>
+            <param name="phoneN">Teléfono.</param>
+            <param name="birthDate">Fecha de nacimiento.</param>
+            <param name="sinpeN">Número de Sinpe Móvil.</param>
+            <param name="calification">Calificación.</param>
+            <param name="deliveryPlaces">Lugares de entrega.</param>
+            <param name="businessName">Nombre del negocio.</param>
+            <param name="password">Contraseña.</param>
+            <param name="image">Imagen.</param>
+        </member>
+        <member name="M:REST.Models.Producer.getPassword">
+            <summary>
+            Método para obtener la contraseña del productor.
+            </summary>
+            <returns> Retorna la contraseña del productor.</returns>
+        </member>
+        <member name="M:REST.Models.Producer.setProducts(System.Collections.ArrayList)">
+            <summary>
+            Método para asignar los productos del productor.
+            </summary>
+            <param name="products"> Lista de productos.</param>
+        </member>
+        <member name="T:REST.Models.Product">
+            <summary>
+            Clase para representar un producto
+            </summary>
+        </member>
+        <member name="M:REST.Models.Product.#ctor(System.Int32,System.String,System.String,System.Int32,System.String,System.Single,System.String,System.Single,System.Int32)">
+            <summary>
+            Constructor de la clase
+            </summary>
+            <param name="id">Identificador único.</param>
+            <param name="name">Nombre.</param>
+            <param name="category">Categoría.</param>
+            <param name="producer">Productor.</param>
+            <param name="image">Imagen.</param>
+            <param name="cost">Precio.</param>
+            <param name="saleMode">Modo de venta.</param>
+            <param name="inStock">En inventario.</param>
+            <param name="quantity">Cantidad.</param>
+        </member>
+        <member name="T:REST.Models.SignInRequest">
+            <summary>
+            Clase para representar solicitud de inicio de sesión.
+            </summary>
+        </member>
+        <member name="M:REST.Models.SignInRequest.#ctor(System.String)">
+            <summary>
+            Constructor de la clase.
+            </summary>
+            <param name="password">Contraseña.</param>
+        </member>
+        <member name="T:REST.Models.SignOutRequest">
+            <summary>
+            Clase para representar solicitud de cierre de sesión.
+            </summary>
+        </member>
+        <member name="M:REST.Models.SignOutRequest.#ctor(System.String,System.String)">
+            <summary>
+            Constructor de la clase.
+            </summary>
+            <param name="type">Tipo de usuario.</param>
+            <param name="token">Token.</param>
+        </member>
+        <member name="T:REST.Models.Token">
+            <summary>
+            Clase para representar un token.
+            </summary>
+        </member>
+        <member name="M:REST.Models.Token.#ctor(System.String)">
+            <summary>
+            Constructor de la clase
+            </summary>
+            <param name="token">Token.</param>
+        </member>
+    </members>
+</doc>

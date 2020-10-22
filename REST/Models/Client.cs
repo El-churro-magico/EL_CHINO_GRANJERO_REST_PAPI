@@ -7,6 +7,9 @@ using System.Web;
 
 namespace REST.Models
 {
+    /// <summary>
+    /// Clase para representar a un cliente.
+    /// </summary>
     public class Client
     {
         public int cedula { get; set; }
@@ -22,6 +25,20 @@ namespace REST.Models
         private string password { get; set; }
         public ArrayList notifications;
 
+        /// <summary>
+        /// Constructor de la clase.
+        /// </summary>
+        /// <param name="cedula">Cédula.</param>
+        /// <param name="name">Nombre.</param>
+        /// <param name="lastName">Apellidos.</param>
+        /// <param name="province">Provincia.</param>
+        /// <param name="canton">Cantón.</param>
+        /// <param name="district">Distrito.</param>
+        /// <param name="address">Dirección.</param>
+        /// <param name="phoneN">Teléfono.</param>
+        /// <param name="birthDate">Fecha de nacimiento.</param>
+        /// <param name="userName">Nombre de usuario.</param>
+        /// <param name="password">Contraseña.</param>
         public Client(int cedula,string name, string lastName, string province,string canton,string district,string address,int phoneN,string birthDate, string userName,string password)
         {
             this.cedula = cedula;
@@ -37,11 +54,20 @@ namespace REST.Models
             this.password = password;
 
         }
+
+        /// <summary>
+        /// Método para obtener la contraseña de un cliente.
+        /// </summary>
+        /// <returns>Retorna la contraseña de un cliente.</returns>
         public string getPassword()
         {
             return this.password;
         }
 
+        /// <summary>
+        /// Método para añadir notificaciones asociadas a un cliente.
+        /// </summary>
+        /// <param name="notifications">Lista de notificaciones.</param>
         public void addNotifications(ArrayList notifications)
         {
             this.notifications = notifications;

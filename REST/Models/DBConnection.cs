@@ -9,8 +9,12 @@ using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Net.Http.Headers;
 
+
 namespace REST.Models
 {
+    /// <summary>
+    /// Clase utilizada para conectarse a la base de datos y crear una interfaz para su uso.
+    /// </summary>
     public class DBConnection
     {
         private MySql.Data.MySqlClient.MySqlConnection connection;
@@ -19,7 +23,9 @@ namespace REST.Models
         private string password = "1234567890";
         private string dbName = "elchinogranjerotest";
 
-
+        /// <summary>
+        /// Constructor de la clase donde se establecen las credenciales para la conexión para la base de datos.
+        /// </summary>
         public DBConnection()
         {
             string credentials = "server=127.0.0.1;uid=" + userId + ";pwd=" + password + ";database=" + dbName;
@@ -35,7 +41,11 @@ namespace REST.Models
             }
         }
 
-
+        /// <summary>
+        /// Método utilizado para obtener de la base de datos una solicitud de afiliación de un productor determinado segun cédula.
+        /// </summary>
+        /// <param name="id">Identificador utilizado para obtener una solicitud específica.</param>
+        /// <returns>Retorna una solicitud de afiliación de un productor o null si no existe una solicitud asociada al identificador.</returns>
         public AffilliationForm getAffilliationForm(int id)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
@@ -48,6 +58,11 @@ namespace REST.Models
             }
             return null;
         }
+
+        /// <summary>
+        /// Método utilizado para obtener de la base de datos todas las solicitudes de afiliación, de productores, existentes.
+        /// </summary>
+        /// <returns>Retorna un ArrayList que contiene todas las solicitudes de afiliación, de productores, existentes.</returns>
         public ArrayList getAllAffilliationForms()
         {
             ArrayList forms=new ArrayList();
@@ -66,6 +81,10 @@ namespace REST.Models
             return forms;
         }
 
+        /// <summary>
+        /// Método utilizado para obtener todos los productores que se encuentran registrados en la base de datos.
+        /// </summary>
+        /// <returns>Retorna un ArrayList que contiene todos los productores que se encuentran registrados en la base de datos</returns>
         public ArrayList getAllProducers()
         {
             ArrayList producers = new ArrayList();
@@ -105,6 +124,12 @@ namespace REST.Models
 
 
         }
+
+        /// <summary>
+        /// Método utilizado para obtener un productor determinado asociado a un identificador específico, registrado en la base de datos.
+        /// </summary>
+        /// <param name="id">Identificador único asociado a un productor.</param>
+        /// <returns>Retorna un productor o null si no existe un productor asociado al identificador.</returns>
         public Producer getProducer(int id)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
@@ -118,6 +143,12 @@ namespace REST.Models
             return null;
         }
 
+        /// <summary>
+        /// Método utilizado para actualizar, en la base de datos, los datos de un productor específico asociado a un indentificador dado.
+        /// </summary>
+        /// <param name="id">Identificador único asociado a un productor.</param>
+        /// <param name="producer">Productor al cual se le requiere actualizar los datos.</param>
+        /// <returns>Retorna un código númerico que permite identificar el estado de la operación.</returns>
         public int updateProducer(int id,Producer producer)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
@@ -184,6 +215,11 @@ namespace REST.Models
             }
             return 404;
         }
+        /// <summary>
+        /// Método para eliminar el productor asociado a un identificador dado, de la base de datos.
+        /// </summary>
+        /// <param name="id">Identificador único</param>
+        /// <returns>String que permite reconocer el estado de la operación o null en caso de que no exista el productor</returns>
         public string deleteProducer(int id)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
@@ -201,6 +237,11 @@ namespace REST.Models
             return "404";
         }
 
+        /// <summary>
+        /// Método para crear producto en la base de datos.
+        /// </summary>
+        /// <param name="product">Producto el cual se requiere crear en la base de datos.</param>
+        /// <returns>Retorna un string que permite identificar el estado de la operación.</returns>
         public string createProduct(Product product)
         {
             string sqlString = "INSERT INTO productos (ID,Nombre,Categoria,Productor,Foto,Precio,Modo_Venta,Disponibilidad,Ganancias) VALUES (" + product.id.ToString() + ",'" + product.name + "','" + product.category + "'," + product.producer.ToString() + ",'" + product.image + "'," + product.cost.ToString() + ",'" + product.saleMode + "'," + product.inStock.ToString() + "," + product.quantity.ToString()+")";
@@ -209,6 +250,11 @@ namespace REST.Models
             return "OK";
         }
 
+        /// <summary>
+        /// Método para obtener el producto, asociado a un identificador dado, de la base de datos.
+        /// </summary>
+        /// <param name="id">Identificador único.</param>
+        /// <returns>Retorna un producto.</returns>
         public Product getProduct(int id)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
@@ -221,7 +267,13 @@ namespace REST.Models
             }
             return null;
         }
-        
+
+        /// <summary>
+        /// Método utilizado para actualizar, en la base de datos, los datos de un producto específico asociado a un identificador dado.
+        /// </summary>
+        /// <param name="id">Identificador único.</param>
+        /// <param name="product">Producto al cual se le requiere actualizar los datos.</param>
+        /// <returns>Retorna un string que permite verificar el estado de la operación.</returns>
         public string updateProduct(int id, Product product)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
@@ -238,6 +290,12 @@ namespace REST.Models
             }
             return "404";
         }
+
+        /// <summary>
+        /// Método para eliminar un producto de la base de datos según identificador dado.
+        /// </summary>
+        /// <param name="id">Identificador único.</param>
+        /// <returns>Retorna un string para verificar el estado de la operación.</returns>
         public string deleteProduct(int id)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
@@ -255,6 +313,11 @@ namespace REST.Models
             return "404";
         }
 
+        /// <summary>
+        /// Método para obtener todos los productos de un productor dado según una cédula dada.
+        /// </summary>
+        /// <param name="cedula">Identificador único.</param>
+        /// <returns>Retorna un ArrayList de productos.</returns>
         public ArrayList getProducerAllProducts(int cedula)
         {
             ArrayList products = new ArrayList();
@@ -274,6 +337,11 @@ namespace REST.Models
             return products;
         }
 
+        /// <summary>
+        /// Método para obtener el top 10 de productos más vendidos de un producto dado según una cédula dada.
+        /// </summary>
+        /// <param name="cedula">Identificador único.</param>
+        /// <returns>Retorna un ArrayList con los 10 productos más vendidos de un productor dado.</returns>
         public ArrayList getProducerTop10SoldProducts(int cedula)
         {
             ArrayList products = new ArrayList();
@@ -292,6 +360,10 @@ namespace REST.Models
             return products;
         }
 
+        /// <summary>
+        /// Método para obtener el top 10 general de productos más vendidos.
+        /// </summary>
+        /// <returns>Retorna un ArrayList con los 10 productos más vendidos.</returns>
         public ArrayList getTop10SoldProducts()
         {
             ArrayList products = new ArrayList();
@@ -309,6 +381,11 @@ namespace REST.Models
             }
             return products;
         }
+
+        /// <summary>
+        /// Método para obtener el top 10 general de productos que más ganancias generan.
+        /// </summary>
+        /// <returns>Retorna un ArrayList con los 10 productos que más ganancias generan.</returns>
         public ArrayList getTop10MostProfitableProducts()
         {
             ArrayList products = new ArrayList();
@@ -327,7 +404,11 @@ namespace REST.Models
             return products;
         }
 
-
+        /// <summary>
+        /// Método para almacenar una afiliación de productor en la base de datos.
+        /// </summary>
+        /// <param name="form">Afiliación por guardar</param>
+        /// <returns>Retorna un string para verificar el estado de la operación.</returns>
         public string saveAffiliationForm(AffilliationForm form)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
@@ -373,6 +454,12 @@ namespace REST.Models
             return "OK";
         }
 
+        /// <summary>
+        /// Método utilizado para actualizar, en la base de datos, los datos de una afiliación de producto específico asociado a un identificador dado.
+        /// </summary>
+        /// <param name="id">Identificador único.</param>
+        /// <param name="statusComment">Comentario almacenado.</param>
+        /// <returns>Retorna un string para verificar el estado de la operación.</returns>
         public string updateAffiliationForm(int id,string statusComment)
         {
             String[] elements = statusComment.Split(':');
@@ -430,6 +517,11 @@ namespace REST.Models
             }
             return "404";
         }
+
+        /// <summary>
+        /// Método para obtener todas las categorías existentes en la base de datos.
+        /// </summary>
+        /// <returns>Retorna un ArrayList que contiene todas las categorías.</returns>
         public ArrayList getAllCategories()
         {
             ArrayList categories = new ArrayList();
@@ -447,6 +539,12 @@ namespace REST.Models
             }
             return categories;
         }
+
+        /// <summary>
+        /// Método para obtener una categoría específica según un identificador dado.
+        /// </summary>
+        /// <param name="id">Identificador único.</param>
+        /// <returns>Retorna una categoría.</returns>
         public Category getCategory(int id)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
@@ -460,6 +558,11 @@ namespace REST.Models
             return null;
         }
 
+        /// <summary>
+        /// Método para crear categoría en la base de datos.
+        /// </summary>
+        /// <param name="category">Categoría la cual se creará en la base de datos.</param>
+        /// <returns>Retorna un código numérico para reconocer el estado de la operación.</returns>
         public int createCategory(Category category)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
@@ -486,6 +589,12 @@ namespace REST.Models
             return 200;
         }
 
+        /// <summary>
+        /// Método para actualizar, en la base de datos, los datos de una categoría específica asociada a un identificador dado.
+        /// </summary>
+        /// <param name="id">Identificador único.</param>
+        /// <param name="category">Categoría con los datos actualizados</param>
+        /// <returns></returns>
         public int updateCategory(int id, Category category)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
@@ -554,6 +663,12 @@ namespace REST.Models
             }
             return 404;
         }
+
+        /// <summary>
+        /// Método para eliminar una categoría asociada a un identificador dado.
+        /// </summary>
+        /// <param name="id">Identificador único.</param>
+        /// <returns>Retorna código númerico para verificar el estado de la operación.</returns>
         public int deleteCategory(int id)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
@@ -570,6 +685,11 @@ namespace REST.Models
             }
             return 404;
         }
+
+        /// <summary>
+        /// Método para obtener todos los clientes almacenados en la base de datos.
+        /// </summary>
+        /// <returns>Retorna un ArrayList con todos los clientes.</returns>
         public ArrayList getAllClients()
         {
             ArrayList clients = new ArrayList();
@@ -588,6 +708,11 @@ namespace REST.Models
             return clients;
         }
 
+        /// <summary>
+        /// Método para obtener un cliente específico según un identificador dado.
+        /// </summary>
+        /// <param name="id">Identificador único.</param>
+        /// <returns>Retorna un cliente asociado al identificador dado.</returns>
         public Client getClient(int id)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
@@ -601,6 +726,11 @@ namespace REST.Models
             return null;
         }
 
+        /// <summary>
+        /// Método para crear un cliente en la base de datos.
+        /// </summary>
+        /// <param name="client">Cliente por crear.</param>
+        /// <returns>Retorna un código númerico para verificar el estado de la operación.</returns>
         public int createClient(Client client)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
@@ -637,6 +767,12 @@ namespace REST.Models
             return 200;
         }
 
+        /// <summary>
+        /// Método para actualizar, en la base de datos, los datos de un cliente específico asociado a un identificador dado.
+        /// </summary>
+        /// <param name="id">Identificador único.</param>
+        /// <param name="client">Cliente con datos actualizados.</param>
+        /// <returns></returns>
         public int updateClient(int id, Client client)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
@@ -666,7 +802,12 @@ namespace REST.Models
             return 404;
         }
 
-
+        /// <summary>
+        /// Método para obtener un cliente según un token y un nombre de usuario dado.
+        /// </summary>
+        /// <param name="token">Token único dado.</param>
+        /// <param name="userName">Nombre de usuario dado.</param>
+        /// <returns>Retorna cliente asociado al token y al nombre de usuario.</returns>
         public Client getClientbyUserName(string token, string userName)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
@@ -702,6 +843,12 @@ namespace REST.Models
             return null;
 
         }
+
+        /// <summary>
+        /// Método para eliminar un cliente según un token dado.
+        /// </summary>
+        /// <param name="token">Token único dado.</param>
+        /// <returns>Retorna un código númerico.</returns>
         public int deleteClient(string token)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
@@ -727,6 +874,12 @@ namespace REST.Models
             }
             return 404;
         }
+
+        /// <summary>
+        /// Método para crear un pedido en la base de datos.
+        /// </summary>
+        /// <param name="order">Pedido por ser creado en las base de datos.</param>
+        /// <returns>Retorna un código númerico para verificar el estado de la operación.</returns>
         public int createOrder(Order order)
         {
             orderNumberGenerator();
@@ -760,6 +913,14 @@ namespace REST.Models
             }
             return 409;
         }
+
+        /// <summary>
+        /// Método para obtener un token de un usuario.
+        /// </summary>
+        /// <param name="userName">Nombre de usuario.</param>
+        /// <param name="password">Contraseña.</param>
+        /// <param name="type">Tipo de usuario.</param>
+        /// <returns>Retorna el token del usuario dado.</returns>
         public string getToken(string userName,string password,string type)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
@@ -811,6 +972,12 @@ namespace REST.Models
             return "409";
         }
 
+
+        /// <summary>
+        /// Método para cerrar sesión.
+        /// </summary>
+        /// <param name="credentials">Credenciales de usuario.</param>
+        /// <returns>Retorna el estado de la petición.</returns>
         public bool logOut(SignOutRequest credentials)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
@@ -829,6 +996,12 @@ namespace REST.Models
             }
             return false;
         }
+
+        /// <summary>
+        /// Método para encriptar contraseña. 
+        /// </summary>
+        /// <param name="input">Contraseña por encriptar.</param>
+        /// <returns>Retorna un ArrayList con la contraseña encriptada.</returns>
         public ArrayList sha256PasswordHasher(string input)
         {
             ArrayList cryptoComponents = new ArrayList();
@@ -849,6 +1022,13 @@ namespace REST.Models
             return cryptoComponents;
         }
 
+        /// <summary>
+        /// Método para verificar contraseña.
+        /// </summary>
+        /// <param name="password">Contraseña ingresada por el usuario.</param>
+        /// <param name="hashedPassword">Contraseña encriptada.</param>
+        /// <param name="salt">Salt para encriptación.</param>
+        /// <returns>Retorna un booleano dependiendo de si las contraseñas son iguales.</returns>
         public bool passwordVerifier(string password,string hashedPassword,string salt)
         {
             byte[] bytes = System.Text.Encoding.UTF8.GetBytes(password + salt);
@@ -859,6 +1039,12 @@ namespace REST.Models
 
             return hashedPassword.Equals(Convert.ToBase64String(hash));
         }
+
+        /// <summary>
+        /// Método para asignar a una lista de productores sus respectivos productos.
+        /// </summary>
+        /// <param name="producers">Lista de productores.</param>
+        /// <returns>Retorna los productores con sus productos ya asignados.</returns>
         public ArrayList productAsigner(ArrayList producers)
         {
             foreach (Producer p in producers)
@@ -868,8 +1054,13 @@ namespace REST.Models
             return producers;
         }
 
-
-
+        /// <summary>
+        /// Método para procesar la calificación de un productor.
+        /// </summary>
+        /// <param name="rating">Calificación.</param>
+        /// <param name="producerID">Identificador del productor.</param>
+        /// <param name="notificationID">Identificador de la notificación asociada</param>
+        /// <returns>Retorna un código numérico que permite verificar el estado de la operación.</returns>
         public int postRating(int rating, int producerID, int notificationID)
         {
             MySql.Data.MySqlClient.MySqlDataReader sqlReader = null;
@@ -892,6 +1083,10 @@ namespace REST.Models
             }
             return 409;
         }
+
+        /// <summary>
+        /// Método que asigna un número identificador a un pedido.
+        /// </summary>
         public void orderNumberGenerator()
         {
             int number =this.orderNumber;

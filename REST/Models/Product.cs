@@ -4,7 +4,9 @@ using System.Linq;
 using System.Web;
 
 namespace REST.Models
-{
+{   /// <summary>
+/// Clase para representar un producto
+/// </summary>
     public class Product
     {
 
@@ -18,6 +20,18 @@ namespace REST.Models
         public float inStock { get; set; }
         public int quantity{ get; set; }
 
+        /// <summary>
+        /// Constructor de la clase
+        /// </summary>
+        /// <param name="id">Identificador único.</param>
+        /// <param name="name">Nombre.</param>
+        /// <param name="category">Categoría.</param>
+        /// <param name="producer">Productor.</param>
+        /// <param name="image">Imagen.</param>
+        /// <param name="cost">Precio.</param>
+        /// <param name="saleMode">Modo de venta.</param>
+        /// <param name="inStock">En inventario.</param>
+        /// <param name="quantity">Cantidad.</param>
         public Product(int id, string name, string category, int producer, string image, float cost, string saleMode, float inStock,int quantity)
         {
             this.id = id;

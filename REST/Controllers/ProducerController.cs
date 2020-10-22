@@ -9,28 +9,54 @@ using REST.Models;
 
 namespace REST.Controllers
 {
+    /// <summary>
+    /// Clase controladora de Producer
+    /// </summary>
     public class ProducerController : ApiController
     {
         private DBConnection dbConnection = new DBConnection();
 
         // GET: api/Producer
+        /// <summary>
+        /// Método para obtener todos los productores que se encuentran en la base de datos.
+        /// </summary>
+        /// <returns>Retorna una lista de productores.</returns>
         public ArrayList Get()
         {
             return dbConnection.getAllProducers();
         }
 
         // GET: api/Producer/5
+        /// <summary>
+        /// Método para obtener un productor según un identificador dado.
+        /// </summary>
+        /// <param name="id">Identificador único dado.</param>
+        /// <returns>Retorna un productor,</returns>
         public Producer Get(int id)
         {
             return dbConnection.getProducer(id);
         }
 
+        /// <summary>
+        /// Método para obtener todos los producotres de una ubicación dada.
+        /// </summary>
+        /// <param name="province">Provincia.</param>
+        /// <param name="canton">Cantón.</param>
+        /// <param name="district">Distrito.</param>
+        /// <returns>Retorna lista de productores.</returns>
         [Route ("api/Producer/getProducerByLocation/{province}/{canton}/{district}")]
         public ArrayList Get(string province,string canton, string district)
         {
             return dbConnection.productAsigner(dbConnection.getProducersByLocation(province,canton,district));
         }
 
+        /// <summary>
+        /// Método para registrar una calificación.
+        /// </summary>
+        /// <param name="rating">Calificación.</param>
+        /// <param name="producerID">Identificador del productor.</param>
+        /// <param name="notificationID">Identificador de notificación.</param>
+        /// <returns>Retorna una respuesta en formato http que permite verificar el estado de la operación.</returns>
         [Route("api/Producer/Rate/{rating}/{producerID}/{notificationID}")]
         public HttpResponseMessage Post(int rating,int producerID,int notificationID)
         {
@@ -44,6 +70,12 @@ namespace REST.Controllers
         }
 
         // PUT: api/Producer/5
+        /// <summary>
+        /// Método para actualizar un productor, en la base de datos, según identificador dado.
+        /// </summary>
+        /// <param name="id">Identificador único dado.</param>
+        /// <param name="value">Productor con datos actualizados.</param>
+        /// <returns>Retorna una respuesta en formato http que permite verificar el estado de la operación.</returns>
         public HttpResponseMessage Put(int id,[FromBody]Producer value)
         {
             int response = dbConnection.updateProducer(id,value);
@@ -59,6 +91,11 @@ namespace REST.Controllers
         }
 
         // DELETE: api/Producer/5
+        /// <summary>
+        /// Método para eliminar un productor según un identificador dado.
+        /// </summary>
+        /// <param name="id">Identificador único dado.</param>
+        /// <returns>Retorna una respuesta en formato http que permite verificar el estado de la operación.</returns>
         public HttpResponseMessage Delete(int id)
         {
             string response = dbConnection.deleteProducer(id);
